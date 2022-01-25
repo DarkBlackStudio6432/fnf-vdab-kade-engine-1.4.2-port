@@ -2,6 +2,9 @@ package;
 
 import openfl.geom.Matrix;
 import openfl.display.BitmapData;
+import flixel.math.FlxRandom;
+import openfl.net.FileFilter;
+import Shaders.PulseEffect;
 import openfl.utils.AssetType;
 import lime.graphics.Image;
 import flixel.graphics.FlxGraphic;
@@ -92,6 +95,15 @@ class PlayState extends MusicBeatState
 	var songLength:Float = 0;
 	var kadeEngineWatermark:FlxText;
 	
+	public var curbg:FlxSprite;
+	public static var screenshader:Shaders.PulseEffect = new PulseEffect();
+	public var UsingNewCam:Bool = false;
+	public static var eyesoreson = true;
+
+	public var elapsedtime:Float = 0;
+
+	var funnyFloatyBoys:Array<String> = ['dave-angey', 'bambi-3d', 'dave-annoyed-3d', 'dave-3d-standing-bruh-what', 'bambi-unfair'];
+
 	#if windows
 	// Discord RPC variables
 	var storyDifficultyText:String = "";
@@ -133,12 +145,15 @@ class PlayState extends MusicBeatState
 	private var totalPlayed:Int = 0;
 	private var ss:Bool = false;
 
+	
+
 
 	private var healthBarBG:FlxSprite;
 	private var healthBar:FlxBar;
 	private var songPositionBar:Float = 0;
 	
 	private var generatedMusic:Bool = false;
+	private var shakeCam:Bool = false;
 	private var startingSong:Bool = false;
 
 	private var iconP1:HealthIcon;
@@ -193,6 +208,8 @@ class PlayState extends MusicBeatState
 
 	public static var timeCurrently:Float = 0;
 	public static var timeCurrentlyR:Float = 0;
+
+	var canFloat:Bool = true;
 	
 	// Will fire once to prevent debug spam messages and broken animations
 	private var triggeredAlready:Bool = false;
@@ -405,6 +422,8 @@ class PlayState extends MusicBeatState
 		if (FlxG.sound.music != null)
 			FlxG.sound.music.stop();
 
+		eyesoreson = FlxG.save.data.eyesores;
+
 		sicks = 0;
 		bads = 0;
 		shits = 0;
@@ -514,6 +533,10 @@ class PlayState extends MusicBeatState
 			case 'thorns':
 				dialogue = CoolUtil.coolTextFile(Paths.txt('thorns/thornsDialogue'));
 		}
+		screenshader.waveAmplitude = 1;
+		screenshader.waveFrequency = 2;
+		screenshader.waveSpeed = 1;
+		screenshader.shader.uTime.value[0] = new flixel.math.FlxRandom().float(-100000, 100000);
 
 		switch(SONG.song.toLowerCase())
 		{
@@ -822,6 +845,38 @@ class PlayState extends MusicBeatState
 								add(waveSpriteFG);
 						*/
 			}
+			case 'polygonized' | 'furiosity' | 'cheating' | 'unfairness':
+				defaultCamZoom = 0.9;
+				var bg:FlxSprite = new FlxSprite(-600, -200).loadGraphic(Paths.image('dave/redsky'));
+				bg.active = true;
+	
+				switch (SONG.song.toLowerCase())
+				{
+					case 'cheating':
+						bg.loadGraphic(Paths.image('dave/cheater'));
+						curStage = 'unfairness';
+					case 'unfairness':
+						bg.loadGraphic(Paths.image('dave/scarybg'));
+						curStage = 'cheating';
+					default:
+						bg.loadGraphic(Paths.image('dave/redsky'));
+						curStage = 'daveEvilHouse';
+				}
+				
+				//sprites.add(bg);
+				add(bg);
+				// below code assumes shaders are always enabled which is bad
+				// i wouldnt consider this an eyesore though
+				var testshader:Shaders.GlitchEffect = new Shaders.GlitchEffect();
+				testshader.waveAmplitude = 0.1;
+				testshader.waveFrequency = 5;
+				testshader.waveSpeed = 2;
+				bg.shader = testshader.shader;
+				curbg = bg;
+				if (SONG.song.toLowerCase() == 'furiosity' || SONG.song.toLowerCase() == 'polygonized' || SONG.song.toLowerCase() == 'unfairness')
+				{
+					UsingNewCam = true;
+				}
 			default:
 			{
 					defaultCamZoom = 0.9;
@@ -1026,7 +1081,7 @@ class PlayState extends MusicBeatState
 				var songName = new FlxText(songPosBG.x + (songPosBG.width / 2) - 20,songPosBG.y,0,SONG.song, 16);
 				if (FlxG.save.data.downscroll)
 					songName.y -= 3;
-				songName.setFormat(Paths.font("vcr.ttf"), 16, FlxColor.WHITE, RIGHT, FlxTextBorderStyle.OUTLINE,FlxColor.BLACK);
+				songName.setFormat(Paths.font("comic.ttf"), 16, FlxColor.WHITE, RIGHT, FlxTextBorderStyle.OUTLINE,FlxColor.BLACK);
 				songName.scrollFactor.set();
 				add(songName);
 				songName.cameras = [camHUD];
@@ -1048,7 +1103,7 @@ class PlayState extends MusicBeatState
 
 		// Add Kade Engine watermark
 		kadeEngineWatermark = new FlxText(4,healthBarBG.y + 50,0,SONG.song + " " + (storyDifficulty == 2 ? "Hard" : storyDifficulty == 1 ? "Normal" : "Easy") + (Main.watermarks ? " - KE " + MainMenuState.kadeEngineVer : ""), 16);
-		kadeEngineWatermark.setFormat(Paths.font("vcr.ttf"), 16, FlxColor.WHITE, RIGHT, FlxTextBorderStyle.OUTLINE,FlxColor.BLACK);
+		kadeEngineWatermark.setFormat(Paths.font("comic.ttf"), 16, FlxColor.WHITE, RIGHT, FlxTextBorderStyle.OUTLINE,FlxColor.BLACK);
 		kadeEngineWatermark.scrollFactor.set();
 		add(kadeEngineWatermark);
 
@@ -1058,14 +1113,14 @@ class PlayState extends MusicBeatState
 		scoreTxt = new FlxText(FlxG.width / 2 - 235, healthBarBG.y + 50, 0, "", 20);
 		if (!FlxG.save.data.accuracyDisplay)
 			scoreTxt.x = healthBarBG.x + healthBarBG.width / 2;
-		scoreTxt.setFormat(Paths.font("vcr.ttf"), 16, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE,FlxColor.BLACK);
+		scoreTxt.setFormat(Paths.font("comic.ttf"), 16, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE,FlxColor.BLACK);
 		scoreTxt.scrollFactor.set();
 		if (offsetTesting)
 			scoreTxt.x += 300;
 		add(scoreTxt);
 
 		replayTxt = new FlxText(healthBarBG.x + healthBarBG.width / 2 - 75, healthBarBG.y + (FlxG.save.data.downscroll ? 100 : -100), 0, "REPLAY", 20);
-		replayTxt.setFormat(Paths.font("vcr.ttf"), 42, FlxColor.WHITE, RIGHT, FlxTextBorderStyle.OUTLINE,FlxColor.BLACK);
+		replayTxt.setFormat(Paths.font("comic.ttf"), 42, FlxColor.WHITE, RIGHT, FlxTextBorderStyle.OUTLINE,FlxColor.BLACK);
 		replayTxt.scrollFactor.set();
 		if (loadRep)
 			{
@@ -1656,7 +1711,7 @@ class PlayState extends MusicBeatState
 			var songName = new FlxText(songPosBG.x + (songPosBG.width / 2) - 20,songPosBG.y,0,SONG.song, 16);
 			if (FlxG.save.data.downscroll)
 				songName.y -= 3;
-			songName.setFormat(Paths.font("vcr.ttf"), 16, FlxColor.WHITE, RIGHT, FlxTextBorderStyle.OUTLINE,FlxColor.BLACK);
+			songName.setFormat(Paths.font("comic.ttf"), 16, FlxColor.WHITE, RIGHT, FlxTextBorderStyle.OUTLINE,FlxColor.BLACK);
 			songName.scrollFactor.set();
 			add(songName);
 
@@ -2076,6 +2131,27 @@ class PlayState extends MusicBeatState
 
 	override public function update(elapsed:Float)
 	{
+		elapsedtime += elapsed;
+		if (curbg != null)
+		{
+			if (curbg.active) // only the furiosity background is active
+			{
+				var shad = cast(curbg.shader, Shaders.GlitchShader);
+				shad.uTime.value[0] += elapsed;
+			}
+		}
+		if(funnyFloatyBoys.contains(dad.curCharacter.toLowerCase()) && canFloat)
+		{
+			dad.y += (Math.sin(elapsedtime) * 0.6);
+		}
+		if(funnyFloatyBoys.contains(boyfriend.curCharacter.toLowerCase()) && canFloat)
+		{
+			boyfriend.y += (Math.sin(elapsedtime) * 0.6);
+		}
+		if(funnyFloatyBoys.contains(gf.curCharacter.toLowerCase()) && canFloat)
+		{
+			gf.y += (Math.sin(elapsedtime) * 0.6);
+		}
 		#if !debug
 		perfectMode = false;
 		#end
@@ -2141,6 +2217,23 @@ class PlayState extends MusicBeatState
 		}
 		else
 			currentFrames++;
+
+		FlxG.camera.setFilters([new ShaderFilter(screenshader.shader)]); // this is very stupid but doesn't effect memory all that much so
+		if (shakeCam && eyesoreson)
+		{
+			// var shad = cast(FlxG.camera.screen.shader,Shaders.PulseShader);
+			FlxG.camera.shake(0.015, 0.015);
+		}
+		screenshader.shader.uTime.value[0] += elapsed;
+		if (shakeCam && eyesoreson)
+		{
+			screenshader.shader.uampmul.value[0] = 1;
+		}
+		else
+		{
+			screenshader.shader.uampmul.value[0] -= (elapsed / 2);
+		}
+		screenshader.Enabled = shakeCam && eyesoreson;
 
 		if (FlxG.keys.justPressed.NINE)
 		{
@@ -2216,8 +2309,9 @@ class PlayState extends MusicBeatState
 		// FlxG.watch.addQuick('VOL', vocals.amplitudeLeft);
 		// FlxG.watch.addQuick('VOLRight', vocals.amplitudeRight);
 
-		iconP1.setGraphicSize(Std.int(FlxMath.lerp(150, iconP1.width, 0.50)));
-		iconP2.setGraphicSize(Std.int(FlxMath.lerp(150, iconP2.width, 0.50)));
+		// DAVE AND BAMBI SPECIAL ICONS BOUNCE
+		iconP1.setGraphicSize(Std.int(FlxMath.lerp(150, iconP1.width, 0.8)),Std.int(FlxMath.lerp(150, iconP1.height, 0.8)));
+		iconP2.setGraphicSize(Std.int(FlxMath.lerp(150, iconP2.width, 0.8)),Std.int(FlxMath.lerp(150, iconP2.height, 0.8)));
 
 		iconP1.updateHitbox();
 		iconP2.updateHitbox();

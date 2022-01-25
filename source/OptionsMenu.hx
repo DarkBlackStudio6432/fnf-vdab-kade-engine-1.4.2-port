@@ -48,6 +48,10 @@ class OptionsMenu extends MusicBeatState
 			#end
 			new WatermarkOption("Turn off all watermarks from the engine.")
 			
+		]),
+		new OptionCatagory("Dave And Bambi", [
+			new EyesoresOption("Disable The Thing that makes your eyes die")
+			
 		])
 		
 	];

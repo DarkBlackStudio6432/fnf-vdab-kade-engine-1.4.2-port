@@ -375,6 +375,27 @@ class NPSDisplayOption extends Option
 	}
 }
 
+class EyesoresOption extends Option
+{
+	public function new(desc:String)
+	{
+		super();
+		description = desc;
+	}
+
+	public override function press():Bool
+	{
+		FlxG.save.data.eyesores = !FlxG.save.data.eyesores;
+		display = updateDisplay();
+		return true;
+	}
+
+	private override function updateDisplay():String
+	{
+		return "Eyesores lol " + (!FlxG.save.data.eyesores ? "off" : "on");
+	}
+}
+
 class ReplayOption extends Option
 {
 	public function new(desc:String)
