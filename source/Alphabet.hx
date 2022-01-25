@@ -1,5 +1,6 @@
 package;
 
+import Shaders.InvertShader;
 import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.graphics.frames.FlxAtlasFrames;
@@ -25,6 +26,8 @@ class Alphabet extends FlxSpriteGroup
 
 	var _finalText:String = "";
 	var _curText:String = "";
+
+	public var SwitchXandY:Bool = false;
 
 	public var widthOfWords:Float = FlxG.width;
 
@@ -222,10 +225,20 @@ class Alphabet extends FlxSpriteGroup
 	{
 		if (isMenuItem)
 		{
-			var scaledY = FlxMath.remapToRange(targetY, 0, 1, 0, 1.3);
+			if (SwitchXandY)
+			{
+				var scaledX = FlxMath.remapToRange(targetY, 0, 1, 0, 1.3);
 
-			y = FlxMath.lerp(y, (scaledY * 120) + (FlxG.height * 0.48), 0.30);
-			x = FlxMath.lerp(x, (targetY * 20) + 90, 0.30);
+				x = FlxMath.lerp(x, (scaledX * 120) + (text.length * 30), 0.16);
+				//y = FlxMath.lerp(y, (targetY * 20) + 90, 0.16);
+			}
+			else
+			{
+				var scaledY = FlxMath.remapToRange(targetY, 0, 1, 0, 1.3);
+
+				y = FlxMath.lerp(y, (scaledY * 120) + (FlxG.height * 0.48), 0.16);
+				x = FlxMath.lerp(x, (targetY * 20) + 90, 0.16);	
+			}
 		}
 
 		super.update(elapsed);
@@ -276,10 +289,14 @@ class AlphaCharacter extends FlxSprite
 		y += row * 60;
 	}
 
-	public function createNumber(letter:String):Void
+	public function createNumber(letter:String,invert:Bool = false):Void
 	{
 		animation.addByPrefix(letter, letter, 24);
 		animation.play(letter);
+		if (invert)
+		{
+		this.shader = new InvertShader();
+		}
 
 		updateHitbox();
 	}

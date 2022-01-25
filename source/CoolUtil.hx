@@ -6,11 +6,19 @@ using StringTools;
 
 class CoolUtil
 {
-	public static var difficultyArray:Array<String> = ['EASY', "NORMAL", "HARD"];
+	public static var difficultyArray:Array<String> = ['EASY', "NORMAL", "HARD","LEGACY"];
 
 	public static function difficultyString():String
 	{
-		return difficultyArray[PlayState.storyDifficulty];
+		switch (PlayState.storyWeek)
+		{
+			case 3:
+				return 'FINALE';
+			case 4:
+				return 'BSIDE';
+			default:
+				return difficultyArray[PlayState.storyDifficulty];
+		}
 	}
 
 	public static function coolTextFile(path:String):Array<String>
@@ -46,4 +54,23 @@ class CoolUtil
 		}
 		return dumbArray;
 	}
+	public static function formatString(string:String):String
+		{
+			 var split:Array<String> = string.split('-');
+			 var formattedString:String = '';
+			 for (i in 0...split.length) 
+			 {
+				  var piece:String = split[i];
+				  var allSplit = piece.split('');
+				  var firstLetterUpperCased = allSplit[0].toUpperCase();
+				  var substring = piece.substr(1, piece.length - 1);
+				  var newPiece = firstLetterUpperCased + substring;
+				  if (i != split.length - 1)
+				  {
+						newPiece += " ";
+				  }
+				  formattedString += newPiece;
+			 }
+			 return formattedString;
+		}
 }

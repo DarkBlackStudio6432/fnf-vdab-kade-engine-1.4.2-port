@@ -1,5 +1,7 @@
 package;
 
+import flixel.math.FlxRandom;
+import flixel.math.FlxPoint;
 import Controls.KeyboardScheme;
 import flixel.FlxG;
 import flixel.FlxObject;
@@ -13,8 +15,7 @@ import flixel.tweens.FlxTween;
 import flixel.util.FlxColor;
 import io.newgrounds.NG;
 import lime.app.Application;
-
-#if windows
+#if desktop
 import Discord.DiscordClient;
 #end
 
@@ -26,19 +27,21 @@ class MainMenuState extends MusicBeatState
 
 	var menuItems:FlxTypedGroup<FlxSprite>;
 
-	#if !switch
-	var optionShit:Array<String> = ['story mode', 'freeplay', 'donate', 'options'];
-	#else
-	var optionShit:Array<String> = ['story mode', 'freeplay'];
-	#end
+	var optionShit:Array<String> = ['story mode', 'freeplay', 'extras', 'options'];
 
 	var newGaming:FlxText;
 	var newGaming2:FlxText;
-	var newInput:Bool = true;
+	var newInput:Bool;
 
-	public static var nightly:String = "";
+	public static var firstStart:Bool = true;
 
-	public static var kadeEngineVer:String = "1.4.2" + nightly;
+	public static var finishedFunnyMove:Bool = false;
+
+	public static var daRealEngineVer:String = 'Dave';
+
+	public static var engineVers:Array<String> = ['Dave', 'Bambi', 'Tristan'];
+
+	public static var kadeEngineVer:String = "DAVE";
 	public static var gameVer:String = "0.2.7.1";
 
 	var magenta:FlxSprite;
@@ -56,18 +59,29 @@ class MainMenuState extends MusicBeatState
 
 	override function create()
 	{
-		#if windows
-		// Updating Discord Rich Presence
-		DiscordClient.changePresence("In the Menus", null);
-		#end
-
 		if (!FlxG.sound.music.playing)
 		{
 			FlxG.sound.playMusic(Paths.music('freakyMenu'));
 		}
 
 		persistentUpdate = persistentDraw = true;
+		
+		if (FlxG.save.data.eyesores == null)
+		{
+			FlxG.save.data.eyesores = true;
+		}
 
+		#if desktop
+		DiscordClient.changePresence("In the Menus", null);
+		#end
+		
+		if (FlxG.save.data.unlockedcharacters == null)
+		{
+			FlxG.save.data.unlockedcharacters = [true,true,false,false,false,false];
+		}
+
+		daRealEngineVer = engineVers[FlxG.random.int(0, 2)];
+		
 		var bg:FlxSprite = new FlxSprite(-80).loadGraphic(randomizeBG());
 		bg.scrollFactor.set();
 		bg.setGraphicSize(Std.int(bg.width * 1.1));
@@ -76,9 +90,6 @@ class MainMenuState extends MusicBeatState
 		bg.antialiasing = true;
 		bg.color = 0xFFFDE871;
 		add(bg);
-
-		camFollow = new FlxObject(0, 0, 1, 1);
-		add(camFollow);
 
 		magenta = new FlxSprite(-80).loadGraphic(bg.graphic);
 		magenta.scrollFactor.set();
@@ -89,16 +100,21 @@ class MainMenuState extends MusicBeatState
 		magenta.antialiasing = true;
 		magenta.color = 0xFFfd719b;
 		add(magenta);
-		// magenta.scrollFactor.set();
 
 		menuItems = new FlxTypedGroup<FlxSprite>();
 		add(menuItems);
 
 		var tex = Paths.getSparrowAtlas('FNF_main_menu_assets');
 
+		camFollow = new FlxObject(0, 0, 1, 1);
+		add(camFollow);
+
+		FlxG.camera.follow(camFollow, null, 0.06);
+		
+		camFollow.setPosition(640, 150.5);
 		for (i in 0...optionShit.length)
 		{
-			var menuItem:FlxSprite = new FlxSprite(0, 60 + (i * 160));
+			var menuItem:FlxSprite = new FlxSprite(0, FlxG.height * 1.6);
 			menuItem.frames = tex;
 			menuItem.animation.addByPrefix('idle', optionShit[i] + " basic", 24);
 			menuItem.animation.addByPrefix('selected', optionShit[i] + " white", 24);
@@ -106,13 +122,21 @@ class MainMenuState extends MusicBeatState
 			menuItem.ID = i;
 			menuItem.screenCenter(X);
 			menuItems.add(menuItem);
-			menuItem.scrollFactor.set();
+			menuItem.scrollFactor.set(0, 1);
 			menuItem.antialiasing = true;
+			if (firstStart)
+				FlxTween.tween(menuItem,{y: 60 + (i * 160)},1 + (i * 0.25) ,{ease: FlxEase.expoInOut, onComplete: function(flxTween:FlxTween) 
+					{
+						finishedFunnyMove = true; 
+						changeItem();
+					}});
+			else
+				menuItem.y = 60 + (i * 160);
 		}
 
-		FlxG.camera.follow(camFollow, null, 0.60 * (60 / FlxG.save.data.fpsCap));
+		firstStart = false;
 
-		var versionShit:FlxText = new FlxText(5, FlxG.height - 18, 0, gameVer +  (Main.watermarks ? " FNF - " + kadeEngineVer + " Kade Engine" : ""), 12);
+		var versionShit:FlxText = new FlxText(5, FlxG.height - 18, 0, gameVer + " FNF - " + daRealEngineVer + " Engine", 12);
 		versionShit.scrollFactor.set();
 		versionShit.setFormat("VCR OSD Mono", 16, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 		add(versionShit);
@@ -160,56 +184,49 @@ class MainMenuState extends MusicBeatState
 
 			if (controls.ACCEPT)
 			{
-				if (optionShit[curSelected] == 'donate')
-				{
-					#if linux
-					Sys.command('/usr/bin/xdg-open', ["https://ninja-muffin24.itch.io/funkin", "&"]);
-					#else
-					FlxG.openURL('https://ninja-muffin24.itch.io/funkin');
-					#end
-				}
-				else
-				{
-					selectedSomethin = true;
-					FlxG.sound.play(Paths.sound('confirmMenu'));
+				selectedSomethin = true;
+				FlxG.sound.play(Paths.sound('confirmMenu'));
 
-					FlxFlicker.flicker(magenta, 1.1, 0.15, false);
+				FlxFlicker.flicker(magenta, 1.1, 0.15, false);
 
-					menuItems.forEach(function(spr:FlxSprite)
+				menuItems.forEach(function(spr:FlxSprite)
+				{
+					if (curSelected != spr.ID)
 					{
-						if (curSelected != spr.ID)
-						{
-							FlxTween.tween(spr, {alpha: 0}, 1.3, {
-								ease: FlxEase.quadOut,
-								onComplete: function(twn:FlxTween)
-								{
-									spr.kill();
-								}
-							});
-						}
-						else
-						{
-							FlxFlicker.flicker(spr, 1, 0.06, false, false, function(flick:FlxFlicker)
+						FlxTween.tween(spr, {alpha: 0}, 1.3, {
+							ease: FlxEase.quadOut,
+							onComplete: function(twn:FlxTween)
 							{
-								var daChoice:String = optionShit[curSelected];
-
-								switch (daChoice)
-								{
-									case 'story mode':
-										FlxG.switchState(new StoryMenuState());
-										trace("Story Menu Selected");
-									case 'freeplay':
-										FlxG.switchState(new FreeplayState());
-
-										trace("Freeplay Menu Selected");
-
-									case 'options':
-										FlxG.switchState(new OptionsMenu());
-								}
-							});
-						}
-					});
-				}
+								spr.kill();
+							}
+						});
+					}
+					else
+					{
+						FlxFlicker.flicker(spr, 1, 0.06, false, false, function(flick:FlxFlicker)
+						{
+							var daChoice:String = optionShit[curSelected];
+							switch (daChoice)
+							{
+								case 'story mode':
+									FlxG.switchState(new StoryMenuState());
+									trace("Story Menu Selected");
+								case 'freeplay':
+									FlxG.switchState(new FreeplayState());
+									trace("Freeplay Menu Selected");
+								case 'options':
+									FlxG.switchState(new OptionsMenu());
+								case 'extras':
+									FlxG.switchState(new ExtrasMenuState());
+								case 'ost':
+									FlxG.switchState(new MusicPlayerState());
+								case 'credits':
+									FlxG.switchState(new CreditsMenuState());
+							}
+						});
+					}
+				});
+				
 			}
 		}
 
@@ -221,20 +238,29 @@ class MainMenuState extends MusicBeatState
 		});
 	}
 
+	override function beatHit()
+	{
+		super.beatHit();
+		
+	}
+
 	function changeItem(huh:Int = 0)
 	{
-		curSelected += huh;
+		if (finishedFunnyMove)
+		{
+			curSelected += huh;
 
-		if (curSelected >= menuItems.length)
-			curSelected = 0;
-		if (curSelected < 0)
-			curSelected = menuItems.length - 1;
+			if (curSelected >= menuItems.length)
+				curSelected = 0;
+			if (curSelected < 0)
+				curSelected = menuItems.length - 1;	
+		}
 
 		menuItems.forEach(function(spr:FlxSprite)
 		{
 			spr.animation.play('idle');
 
-			if (spr.ID == curSelected)
+			if (spr.ID == curSelected && finishedFunnyMove)
 			{
 				spr.animation.play('selected');
 				camFollow.setPosition(spr.getGraphicMidpoint().x, spr.getGraphicMidpoint().y);
