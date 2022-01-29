@@ -2,6 +2,7 @@ package;
 
 import flixel.math.FlxRandom;
 import flixel.addons.effects.FlxSkewedSprite;
+import flixel.FlxState;
 import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.graphics.frames.FlxAtlasFrames;

@@ -59,14 +59,14 @@ class CharacterSelectState extends MusicBeatState
 	
 	public var characters:Array<CharacterInSelect> = 
 	[
-		new CharacterInSelect(['bf', 'bf-pixel', 'bf-christmas'], [1, 1, 1, 1], ["Boyfriend", "Pixel Boyfriend", "Christmas Boyfriend"]),
+		new CharacterInSelect(['bf', 'bf-pixel'], [1, 1, 1, 1], ["Boyfriend", "Pixel Boyfriend"]),
 		new CharacterInSelect(['what-lmao', 'marcello-dave'], [0, 0, 0, 0], ["IF YOU SEE THIS CHRACTER, REPORT IT TO THE DEVS!", "IF YOU SEE THIS CHRACTER, REPORT IT TO THE DEVS!"]),
 		new CharacterInSelect(['tristan', 'tristan-beta'], [2, 0.5, 0.5, 0.5], ["Tristan", 'Tristan (Beta)']),
 		new CharacterInSelect(['dave', 'dave-annoyed', 'dave-splitathon'], [0.25, 0.25, 2, 2], ["Dave", "Dave (Insanity)", 'Dave (Splitathon)']),
-		new CharacterInSelect(['bambi', 'bambi-new', 'bambi-farmer-beta', 'bambi-splitathon', 'bambi-angey', 'bambi-old', 'bambi-bevel'], [0, 0, 3, 0], ["Mr. Bambi", "Mr. Bambi (3d remake)", 'Mr. Bambi (Farmer)', 'Mr. Bambi (beta2)', 'Bad Bambi', 'Mr. Bambi (Farmer beta 1.0)', 'Mr. Bambi (Splitathon)', 'Mr. Bambi (Angry)', 'Mr. Bambi (Joke)', 'Mr. Bambi (Bevel)']),
-		new CharacterInSelect(['dave-angey', 'dave-3d-standing-bruh-what', 'dave-annoyed-3d'], [2, 2, 0.25, 0.25], ["3D Dave", '3D Dave standing bruh idk', '3D dave (1.0)']),
+		new CharacterInSelect(['bambi', 'bambi-new', 'bambi-splitathon', 'bambi-angey', 'bambi-old', 'bambi-bevel'], [0, 0, 3, 0], ["Mr. Bambi", 'Bambi (Farmer)', 'Bambi (Splitathon)', 'Bambie', 'Bambi (Joke)', 'Bambi (Bevel)']),
+		new CharacterInSelect(['dave-angey'], [2, 2, 0.25, 0.25], ["3D Dave"]),
 		new CharacterInSelect(['tristan-golden'], [0.25, 0.25, 0.25, 2], ["Golden Tristan"]),
-		new CharacterInSelect(['bambi-3d', 'bambi-unfair'], [0, 3, 0, 0], ["3D Bambi", 'Unfair Bambi']),
+		new CharacterInSelect(['bambi-3d', 'bambi-unfair'], [0, 3, 0, 0], ["Cheating Expunged", 'Unfairness Expunged']),
 	];
 	public function new() 
 	{

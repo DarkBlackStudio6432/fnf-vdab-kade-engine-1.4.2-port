@@ -1,5 +1,6 @@
 package;
 
+import flixel.tweens.misc.ColorTween;
 import openfl.geom.Matrix;
 import openfl.display.BitmapData;
 import flixel.math.FlxRandom;
@@ -142,6 +143,8 @@ class PlayState extends MusicBeatState
 
 	private var camFollow:FlxObject;
 
+	public var sunsetColor:FlxColor = FlxColor.fromRGB(255, 143, 178);
+
 	private static var prevCamFollow:FlxObject;
 
 	private var strumLineNotes:FlxTypedGroup<FlxSprite>;
@@ -239,6 +242,8 @@ class PlayState extends MusicBeatState
 	public var backgroundSprites:FlxTypedGroup<FlxSprite> = new FlxTypedGroup<FlxSprite>();
 	var normalDaveBG:FlxTypedGroup<FlxSprite> = new FlxTypedGroup<FlxSprite>();
 	var canFloat:Bool = true;
+
+	var nightColor:FlxColor = 0xFF878787;
 	
 	// Will fire once to prevent debug spam messages and broken animations
 	private var triggeredAlready:Bool = false;
@@ -253,9 +258,6 @@ class PlayState extends MusicBeatState
 	// LUA SHIT
 		
 	public static var lua:State = null;
-	var nightColor:FlxColor = 0xFF878787;
-
-	public var sunsetColor:FlxColor = FlxColor.fromRGB(255, 143, 178);
 
 	function callLua(func_name : String, args : Array<Dynamic>, ?type : String) : Dynamic
 	{
@@ -540,7 +542,7 @@ class PlayState extends MusicBeatState
 		Conductor.mapBPMChanges(SONG);
 		Conductor.changeBPM(SONG.bpm);
 
-		theFunne = theFunne && SONG.song.toLowerCase() != 'unfairness';
+		//theFunne = theFunne && SONG.song.toLowerCase() != 'unfairness'; //srry
 
 		var crazyNumber:Int;
 		crazyNumber = FlxG.random.int(0, 3);
@@ -944,9 +946,6 @@ class PlayState extends MusicBeatState
 				preload('dave/redsky');
 				preload('dave/redsky_insanity');
 		}
-
-		/*if (FlxG.save.data.downscroll)
-			kadeEngineWatermark.y = FlxG.height * 0.9 + 45;*/
 
 		scoreTxt = new FlxText(healthBarBG.x + healthBarBG.width / 2 - 150, healthBarBG.y + 40, 0, "", 20);
 		if (!FlxG.save.data.accuracyDisplay)
@@ -2033,8 +2032,18 @@ class PlayState extends MusicBeatState
 				vocals.pause();
 			}
 
-			#if windows
-			DiscordClient.changePresence("PAUSED on " + SONG.song + " (" + storyDifficultyText + ") " + generateRanking(), "Acc: " + truncateFloat(accuracy, 2) + "% | Score: " + songScore + " | Misses: " + misses  , iconRPC);
+			#if desktop
+			DiscordClient.changePresence("PAUSED on "
+				+ SONG.song
+				+ " ("
+				+ storyDifficultyText
+				+ ") |",
+				"Acc: "
+				+ truncateFloat(accuracy, 2)
+				+ "% | Score: "
+				+ songScore
+				+ " | Misses: "
+				+ misses, iconRPC);
 			#end
 			if (!startTimer.finished)
 				startTimer.active = false;
@@ -2056,16 +2065,31 @@ class PlayState extends MusicBeatState
 				startTimer.active = true;
 			paused = false;
 
-			#if windows
 			if (startTimer.finished)
-			{
-				DiscordClient.changePresence(detailsText + " " + SONG.song + " (" + storyDifficultyText + ") " + generateRanking(), "\nAcc: " + truncateFloat(accuracy, 2) + "% | Score: " + songScore + " | Misses: " + misses, iconRPC, true, songLength - Conductor.songPosition);
-			}
-			else
-			{
-				DiscordClient.changePresence(detailsText, SONG.song + " (" + storyDifficultyText + ") " + generateRanking(), iconRPC);
-			}
-			#end
+				{
+					#if desktop
+					DiscordClient.changePresence(detailsText
+						+ " "
+						+ SONG.song
+						+ " ("
+						+ storyDifficultyText
+						+ ") ",
+						"\nAcc: "
+						+ truncateFloat(accuracy, 2)
+						+ "% | Score: "
+						+ songScore
+						+ " | Misses: "
+						+ misses, iconRPC, true,
+						FlxG.sound.music.length
+						- Conductor.songPosition);
+					#end
+				}
+				else
+				{
+					#if desktop
+					DiscordClient.changePresence(detailsText, SONG.song + " (" + storyDifficultyText + ") ", iconRPC);
+					#end
+				}
 		}
 
 		super.closeSubState();
@@ -2802,7 +2826,7 @@ class PlayState extends MusicBeatState
 			}
 		}
 
-		if (health <= 0) //yes
+		if (health <= 0)
 		{
 			if(!perfectMode)
 			{
@@ -2828,8 +2852,7 @@ class PlayState extends MusicBeatState
 			{
 				if(!perfectMode)
 				{
-					/*openSubState(new GameOverSubstate(boyfriend.getScreenPosition().x, boyfriend.getScreenPosition()
-						.y, formoverride == "bf" || formoverride == "none" ? SONG.player1 : formoverride));
+					openSubState(new GameOverSubstate(boyfriend.getScreenPosition().x, boyfriend.getScreenPosition().y));
 
 						#if desktop
 						DiscordClient.changePresence("GAME OVER -- "
@@ -2843,7 +2866,7 @@ class PlayState extends MusicBeatState
 						+ songScore
 						+ " | Misses: "
 						+ misses, iconRPC);
-						#end*/
+						#end
 				}
 			}
 			else
@@ -2863,8 +2886,7 @@ class PlayState extends MusicBeatState
 				{
 					if(!perfectMode)
 					{
-						/*openSubState(new GameOverSubstate(boyfriend.getScreenPosition().x, boyfriend.getScreenPosition()
-							.y, formoverride == "bf" || formoverride == "none" ? SONG.player1 : formoverride));
+						openSubState(new GameOverSubstate(boyfriend.getScreenPosition().x, boyfriend.getScreenPosition().y));
 
 							#if desktop
 							DiscordClient.changePresence("GAME OVER -- "
@@ -2878,7 +2900,7 @@ class PlayState extends MusicBeatState
 							+ songScore
 							+ " | Misses: "
 							+ misses, iconRPC);
-							#end*/
+							#end
 					}
 				}
 			}
@@ -3000,7 +3022,7 @@ class PlayState extends MusicBeatState
 						notes.remove(daNote, true);
 						daNote.destroy();
 					}
-					if (SONG.song.toLowerCase() == 'unfairness' && (daNote.MyStrum != null))
+					if (SONG.song.toLowerCase() == 'unfairness' && (daNote.MyStrum != null)) //ok so, this is the old code of unfairness, the old code doesn't have upscroll broken
 					{
 						if (FlxG.save.data.downscroll)
 							daNote.y = (daNote.MyStrum.y - (Conductor.songPosition - daNote.strumTime) * (-0.45 * FlxMath.roundDecimal(SONG.speed * daNote.LocalScrollSpeed, 2)));
@@ -4180,31 +4202,31 @@ class PlayState extends MusicBeatState
 	}
 
 	/*function badNoteCheck()
-		{
-			// just double pasting this shit cuz fuk u
+	{
+		// just double pasting this shit cuz fuk u
 			// REDO THIS SYSTEM!
-			var upP = controls.UP_P;
-			var rightP = controls.RIGHT_P;
-			var downP = controls.DOWN_P;
-			var leftP = controls.LEFT_P;
+		
+		var upP = controls.UP_P;
+		var rightP = controls.RIGHT_P;
+		var downP = controls.DOWN_P;
+		var leftP = controls.LEFT_P;
 	
-			if (leftP)
-				noteMiss(0);
-			if (upP)
-				noteMiss(2);
-			if (rightP)
-				noteMiss(3);
-			if (downP)
-				noteMiss(1);
-			updateAccuracy();
-		}
-	*/
+		if (leftP)
+			noteMiss(0);
+		if (upP)
+			noteMiss(2);
+		if (rightP)
+			noteMiss(3);
+		if (downP)
+			noteMiss(1);
+		updateAccuracy();
+	}*/
 	function updateAccuracy() 
-		{
-			totalPlayed += 1;
-			accuracy = Math.max(0,totalNotesHit / totalPlayed * 100);
-			accuracyDefault = Math.max(0, totalNotesHitDefault / totalPlayed * 100);
-		}
+	{
+		totalPlayed += 1;
+		accuracy = Math.max(0,totalNotesHit / totalPlayed * 100);
+		accuracyDefault = Math.max(0, totalNotesHitDefault / totalPlayed * 100);
+	}
 
 
 	function getKeyPresses(note:Note):Int
@@ -4727,7 +4749,7 @@ class PlayState extends MusicBeatState
 		if (!boyfriend.animation.curAnim.name.startsWith("sing") && boyfriend.canDance)
 		{
 			boyfriend.playAnim('idle');
-			if (darkLevels.contains(curStage) && SONG.song.toLowerCase() != "polygonized" || SONG.song.toLowerCase() != "cheating")
+			if (darkLevels.contains(curStage) && SONG.song.toLowerCase() != "polygonized")
 			{
 				boyfriend.color = nightColor;
 			}

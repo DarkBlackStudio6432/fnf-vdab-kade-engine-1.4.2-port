@@ -1,6 +1,7 @@
 package;
 
 import flixel.FlxSprite;
+import flixel.math.FlxMath;
 
 class HealthIcon extends FlxSprite
 {
@@ -9,20 +10,30 @@ class HealthIcon extends FlxSprite
 	 */
 	public var sprTracker:FlxSprite;
 
+	public var noAaChars:Array<String> = [
+		'dave-angey',
+		'dave-annoyed-3d',
+		'bambi-3d',
+		'senpai',
+		'senpai-angry',
+		'spirit',
+		'bf-pixel',
+		'gf-pixel',
+		'bambi-unfair'
+	];
+
 	public function new(char:String = 'bf', isPlayer:Bool = false)
 	{
 		super();
-		
 		loadGraphic(Paths.image('iconGrid'), true, 150, 150);
 
-
+		antialiasing = true;
 		animation.add('bf', [0, 1], 0, false, isPlayer);
 		animation.add('bf-christmas', [0, 1], 0, false, isPlayer);
 		animation.add('bf-pixel', [2, 2], 0, false, isPlayer);
 		animation.add('bf-old', [3, 4], 0, false, isPlayer);
 		animation.add('face', [5, 6], 0, false, isPlayer);
 		animation.add('gf', [7], 0, false, isPlayer);
-
 		animation.add('dave', [8, 9], 0, false, isPlayer);
 		animation.add('dave-annoyed', [8, 9], 0, false, isPlayer);
 		animation.add('dave-angey', [10, 11], 0, false, isPlayer);
@@ -52,17 +63,10 @@ class HealthIcon extends FlxSprite
 
 		animation.add('the-duo', [16, 17], 0, false, isPlayer);
 		animation.add('what-lmao', [18, 19], 0, false, isPlayer);
-
 		animation.play(char);
-		switch(char){
-			case 'bf-pixel' | 'senpai' | 'senpai-angry' | 'spirit' | 'gf-pixel' | 'dave-angey' | 'bambi-3d' | 'bambi-unfair' | 'dave-3d-standing-bruh-what' | 'dave-annoyed-3d':
-				{
-
-				}
-			default:
-				{
-					antialiasing = true;
-				}
+		if (noAaChars.contains(char))
+		{
+			antialiasing = false;
 		}
 		scrollFactor.set();
 	}
@@ -70,6 +74,8 @@ class HealthIcon extends FlxSprite
 	override function update(elapsed:Float)
 	{
 		super.update(elapsed);
+		offset.set(Std.int(FlxMath.bound(width - 150,0)),Std.int(FlxMath.bound(height - 150,0)));
+
 
 		if (sprTracker != null)
 			setPosition(sprTracker.x + sprTracker.width + 10, sprTracker.y - 30);
