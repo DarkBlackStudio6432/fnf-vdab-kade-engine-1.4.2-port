@@ -345,7 +345,7 @@ class CharacterSelectState extends MusicBeatState
 		{
 			case "tristan" | 'tristan-beta' | 'tristan-golden':
 				char.y = 100 + 325;
-			case 'dave' | 'dave-annoyed' | 'dave-splitathon' | 'marcello-dave':
+			case 'dave' | 'dave-annoyed' | 'dave-splitathon':
 				char.y = 100 + 160;
 			case 'dave-old':
 				char.y = 100 + 270;
@@ -353,17 +353,15 @@ class CharacterSelectState extends MusicBeatState
 				char.y = 100;
 			case 'bambi-3d':
 				char.y = 100 + 350;
-			case 'bambi-piss-3d':
-				char.y = 100 + 350;
 			case 'bambi-unfair':
 				char.y = 100 + 575;
-			case 'bambi' | 'doodoofeces' | 'bambi-old' | 'bambi-bevel' | 'what-lmao':
+			case 'bambi' | 'bambi-old' | 'bambi-bevel':
 				char.y = 100 + 400;
-			case 'bambi-new' | 'bambi-farmer-beta' | 'bambi-que':
+			case 'bambi-new' | 'bambi-farmer-beta':
 				char.y = 100 + 450;
 			case 'bambi-splitathon':
 				char.y = 100 + 400;
-			case 'bambi-angey' | 'kalampokiphobia':
+			case 'bambi-angey':
 				char.y = 100 + 450;
 		}
 		add(char);

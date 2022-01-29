@@ -344,19 +344,19 @@ class TitleState extends MusicBeatState
 		switch (curBeat)
 		{
 			case 1:
-			createCoolText(['Created by people like:']);
+				createCoolText(['Created by people like']);
 			case 2:
-				addMoreText('MoldyGH\nMissingTextureMan101\nRapparep LOL');
+				addMoreText('MoldyGH');
 			case 3:
-				addMoreText('TheBuilderXD\nCyndaquilDAC\nErizur');
+				addMoreText('MissingTextureMan101');
 			case 4:
-				addMoreText('and our wonderful contributors!');
+				addMoreText('Rapparep\nTheBuilderXD\nT5mpler\nErizur\nCyndaquilDAC');
 			case 5:
 				deleteCoolText();
 			case 6:
-				createCoolText(['Supernovae by ArchWk']);
+				createCoolText(['Supernovae', 'by']);
 			case 7:
-				addMoreText('Glitch by The Boneyard');
+				addMoreText('ArchWk');
 			case 8:
 				deleteCoolText();
 				ngSpr.visible = false;
@@ -367,13 +367,14 @@ class TitleState extends MusicBeatState
 			case 11:
 				deleteCoolText();
 			case 12:
-				addMoreText("Friday Night Funkin'");
+				addMoreText('VS');
 			case 13:
-				addMoreText('VS. Dave and Bambi');
+				addMoreText('Dave');
 			case 14:
-				addMoreText('Mod');
+				addMoreText('Mod'); 
 			case 15:
 				deleteCoolText();
+
 			case 16:
 				skipIntro();
 		}

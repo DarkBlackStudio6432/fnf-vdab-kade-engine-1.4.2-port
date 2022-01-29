@@ -50,7 +50,8 @@ class OptionsMenu extends MusicBeatState
 			
 		]),
 		new OptionCatagory("Dave And Bambi", [
-			new EyesoresOption("Disable The Thing that makes your eyes die")
+			new EyesoresOption("Disable The Thing that makes your eyes die"),
+			new FreeplayCutscenesOption("Disable The Thing that makes your eyes die")
 			
 		])
 		

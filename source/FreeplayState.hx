@@ -107,9 +107,9 @@ class FreeplayState extends MusicBeatState
 				addWeek(['Splitathon'], 3,['the-duo']);
 			case 'joke':
 				addWeek(['Supernovae', 'Glitch'], 2, ['bambi-stupid']);
-				//if (FlxG.save.data.cheatingFound)
+				if (FlxG.save.data.cheatingFound)
 				addWeek(['Cheating'], 2, ['bambi-3d']);
-				//if(FlxG.save.data.unfairnessFound)
+				if(FlxG.save.data.unfairnessFound)
 				addWeek(['Unfairness'], 2, ['bambi-unfair']);
 			case 'extra':
 				addWeek(['Furiosity'], 1, ['dave-angey', 'dave-old']);

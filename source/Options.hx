@@ -396,6 +396,27 @@ class EyesoresOption extends Option
 	}
 }
 
+class FreeplayCutscenesOption extends Option
+{
+	public function new(desc:String)
+	{
+		super();
+		description = desc;
+	}
+
+	public override function press():Bool
+	{
+		FlxG.save.data.freeplayCuts = !FlxG.save.data.freeplayCuts;
+		display = updateDisplay();
+		return true;
+	}
+
+	private override function updateDisplay():String
+	{
+		return "Freeplay Cutscene " + (!FlxG.save.data.freeplayCuts ? "off" : "on");
+	}
+}
+
 class ReplayOption extends Option
 {
 	public function new(desc:String)
