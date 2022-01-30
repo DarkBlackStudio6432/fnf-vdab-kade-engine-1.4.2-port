@@ -900,7 +900,7 @@ class PlayState extends MusicBeatState
 			default:
 				credits = '';
 		}
-		var randomThingy:Int = FlxG.random.int(0, 2);
+		var randomThingy:Int = FlxG.random.int(0, 3);
 		var engineName:String = 'stupid';
 		switch(randomThingy)
 	    {
@@ -910,6 +910,8 @@ class PlayState extends MusicBeatState
 				engineName = 'Bambi ';
 			case 2:
 				engineName = 'Tristan ';
+			case 3:
+				engineName = 'Expunged ';
 		}
 
 		var creditsText:Bool = credits != '';
@@ -2002,12 +2004,6 @@ class PlayState extends MusicBeatState
 			{
 				dadStrums.add(babyArrow);
 			}
-			/*
-			else
-			{
-				basedStrums.add(babyArrow); //if
-			}
-			*/
 
 			babyArrow.animation.play('static');
 			babyArrow.x += 50;

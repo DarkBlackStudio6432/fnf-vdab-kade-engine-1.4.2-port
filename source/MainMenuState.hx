@@ -39,7 +39,7 @@ class MainMenuState extends MusicBeatState
 
 	public static var daRealEngineVer:String = 'Dave';
 
-	public static var engineVers:Array<String> = ['Dave', 'Bambi', 'Tristan'];
+	public static var engineVers:Array<String> = ['Dave', 'Bambi', 'Tristan', 'Expunged'];
 
 	public static var kadeEngineVer:String = "DAVE";
 	public static var gameVer:String = "0.2.7.1";
@@ -80,7 +80,7 @@ class MainMenuState extends MusicBeatState
 			FlxG.save.data.unlockedcharacters = [true,true,false,false,false,false];
 		}
 
-		daRealEngineVer = engineVers[FlxG.random.int(0, 2)];
+		daRealEngineVer = engineVers[FlxG.random.int(0, 3)];
 		
 		var bg:FlxSprite = new FlxSprite(-80).loadGraphic(randomizeBG());
 		bg.scrollFactor.set();
