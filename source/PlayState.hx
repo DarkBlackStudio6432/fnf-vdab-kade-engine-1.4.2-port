@@ -819,11 +819,7 @@ class PlayState extends MusicBeatState
 
 		dadStrums = new FlxTypedGroup<FlxSprite>();
 
-		// startCountdown();
-
 		generateSong(SONG.song);
-
-		// add(strumLine);
 
 		camFollow = new FlxObject(0, 0, 1, 1);
 
