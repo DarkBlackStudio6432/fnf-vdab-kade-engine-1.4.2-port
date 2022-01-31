@@ -1912,41 +1912,6 @@ class PlayState extends MusicBeatState
 			{
 				switch (curStage)
 				{
-					case 'school' | 'schoolEvil':
-						babyArrow.loadGraphic(Paths.image('weeb/pixelUI/arrows-pixels'), true, 17, 17);
-						babyArrow.animation.add('green', [6]);
-						babyArrow.animation.add('red', [7]);
-						babyArrow.animation.add('blue', [5]);
-						babyArrow.animation.add('purplel', [4]);
-
-						babyArrow.setGraphicSize(Std.int(babyArrow.width * daPixelZoom));
-						babyArrow.updateHitbox();
-						babyArrow.antialiasing = false;
-
-						switch (Math.abs(i))
-						{
-							case 0:
-								babyArrow.x += Note.swagWidth * 0;
-								babyArrow.animation.add('static', [0]);
-								babyArrow.animation.add('pressed', [4, 8], 12, false);
-								babyArrow.animation.add('confirm', [12, 16], 24, false);
-							case 1:
-								babyArrow.x += Note.swagWidth * 1;
-								babyArrow.animation.add('static', [1]);
-								babyArrow.animation.add('pressed', [5, 9], 12, false);
-								babyArrow.animation.add('confirm', [13, 17], 24, false);
-							case 2:
-								babyArrow.x += Note.swagWidth * 2;
-								babyArrow.animation.add('static', [2]);
-								babyArrow.animation.add('pressed', [6, 10], 12, false);
-								babyArrow.animation.add('confirm', [14, 18], 12, false);
-							case 3:
-								babyArrow.x += Note.swagWidth * 3;
-								babyArrow.animation.add('static', [3]);
-								babyArrow.animation.add('pressed', [7, 11], 12, false);
-								babyArrow.animation.add('confirm', [15, 19], 24, false);
-						}
-
 					default:
 						babyArrow.frames = Paths.getSparrowAtlas('NOTE_assets');
 						babyArrow.animation.addByPrefix('green', 'arrowUP');
@@ -4017,8 +3982,8 @@ class PlayState extends MusicBeatState
 				}
 			}
 	
-				playerStrums.forEach(function(spr:FlxSprite)
-				{
+			playerStrums.forEach(function(spr:FlxSprite)
+			{
 					switch (spr.ID)
 					{
 						case 2:
@@ -4126,7 +4091,7 @@ class PlayState extends MusicBeatState
 					}
 					else
 						spr.centerOffsets();
-				});
+			});
 	}
 
 	function noteMiss(direction:Int = 1, daNote:Note):Void
@@ -4528,21 +4493,6 @@ class PlayState extends MusicBeatState
 						FlxTween.linearMotion(dad, dad.x, dad.y, 350, 260, 0.6, true);
 				}
 			case 'polygonized':
-				switch(curStep)
-				{
-					case 1024 | 1312 | 1424 | 1552 | 1664:
-						shakeCam = true;
-						camZooming = true;
-					case 1152 | 1408 | 1472 | 1600 | 2048 | 2176:
-						shakeCam = false;
-						camZooming = false;
-					case 2432:
-						boyfriend.canDance = false;
-						gf.canDance = false;
-						boyfriend.playAnim('hey', true);
-						gf.playAnim('cheer', true);
-				}
-			case 'polygonized-b':
 				switch(curStep)
 				{
 					case 1024 | 1312 | 1424 | 1552 | 1664:
