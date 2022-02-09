@@ -2768,21 +2768,6 @@ class PlayState extends MusicBeatState
 			}
 		}
 
-		if (curSong.toLowerCase() == 'furiosity')
-		{
-			switch (curBeat)
-			{
-				case 127:
-					camZooming = true;
-				case 159:
-					camZooming = false;
-				case 191:
-					camZooming = true;
-				case 223:
-					camZooming = false;
-			}
-		}
-
 		if (health <= 0)
 		{
 			if(!perfectMode)
