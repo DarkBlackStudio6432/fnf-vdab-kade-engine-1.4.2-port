@@ -682,7 +682,7 @@ class PlayState extends MusicBeatState
 					dad.x += 150;
 					camPos.set(dad.getGraphicMidpoint().x, dad.getGraphicMidpoint().y + 150);
 				}
-			case 'bambi-3d' | 'bambi-piss-3d':
+			case 'bambi-3d':
 				{
 					dad.y += 100;
 					camPos.set(dad.getGraphicMidpoint().x, dad.getGraphicMidpoint().y + 150);
@@ -1078,7 +1078,7 @@ class PlayState extends MusicBeatState
 					bg.shader = testshader.shader;
 					curbg = bg;
 				}
-			case 'blocked' | 'corn-theft' | 'maze' | 'mealie' | 'screwed' | 'splitathon' | 'old-corn-theft' | 'old-maze':
+			case 'blocked' | 'corn-theft' | 'maze' | 'mealie' | 'splitathon' | 'old-corn-theft' | 'old-maze':
 				defaultCamZoom = 0.9;
 
 				switch (SONG.song.toLowerCase())
@@ -1798,9 +1798,7 @@ class PlayState extends MusicBeatState
 
 			for (songNotes in section.sectionNotes)
 			{
-				var daStrumTime:Float = songNotes[0] + FlxG.save.data.offset + songOffset;
-				if (daStrumTime < 0)
-					daStrumTime = 0;
+				var daStrumTime:Float = songNotes[0];
 				var daNoteData:Int = Std.int(songNotes[1] % 4);
 
 				var gottaHitNote:Bool = section.mustHitSection;
@@ -1816,7 +1814,7 @@ class PlayState extends MusicBeatState
 				else
 					oldNote = null;
 
-				var swagNote:Note = new Note(daStrumTime, daNoteData, oldNote);
+				var swagNote:Note = new Note(daStrumTime, daNoteData, oldNote, false, gottaHitNote);
 				swagNote.sustainLength = songNotes[2];
 				swagNote.scrollFactor.set(0, 0);
 
@@ -1829,7 +1827,8 @@ class PlayState extends MusicBeatState
 				{
 					oldNote = unspawnNotes[Std.int(unspawnNotes.length - 1)];
 
-					var sustainNote:Note = new Note(daStrumTime + (Conductor.stepCrochet * susNote) + Conductor.stepCrochet, daNoteData, oldNote, true);
+					var sustainNote:Note = new Note(daStrumTime + (Conductor.stepCrochet * susNote) + Conductor.stepCrochet, daNoteData, oldNote, true,
+						gottaHitNote);
 					sustainNote.scrollFactor.set();
 					unspawnNotes.push(sustainNote);
 
@@ -1850,6 +1849,7 @@ class PlayState extends MusicBeatState
 				else
 				{
 				}
+
 			}
 			daBeats += 1;
 		}
@@ -4320,7 +4320,7 @@ class PlayState extends MusicBeatState
 								fuckingDumbassBullshitFuckYou = 'LEFT';
 						}
 					}
-					if(boyfriend.curCharacter == 'bambi-unfair' || boyfriend.curCharacter == 'bambi-3d' || boyfriend.curCharacter == 'bambi-piss-3d')
+					if(boyfriend.curCharacter == 'bambi-unfair' || boyfriend.curCharacter == 'bambi-3d')
 					{
 						FlxG.camera.shake(0.0075, 0.1);
 						camHUD.shake(0.0045, 0.1);
