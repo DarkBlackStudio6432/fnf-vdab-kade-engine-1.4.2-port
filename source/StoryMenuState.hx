@@ -27,13 +27,19 @@ class StoryMenuState extends MusicBeatState
 
 	var weekData:Array<Dynamic> = [
 		['Tutorial'],
+		['Bopeebo', 'Fresh', 'Dadbattle'],
+		['Spookeez', 'South', "Monster"],
+		['Pico', 'Philly', "Blammed"],
+		['Satin-Panties', "High", "Milf"],
+		['Cocoa', 'Eggnog', 'Winter-Horrorland'],
+		['Senpai', 'Roses', 'Thorns'],
 		['House', 'Insanity', 'Polygonized'],
 		['Blocked', 'Corn-Theft', 'Maze'],
 		['Splitathon'],
 		['huh', 'huh', 'huh']
 	];
 
-	var actualWeeks:Array<Dynamic> = [0, 1, 4, 2, 3];
+	var actualWeeks:Array<Dynamic> = [0, 1, 2, 3, 4, 5, 6, 7, 10, 8, 9];
 
 	var curDifficulty:Int = 1;
 
@@ -46,7 +52,13 @@ class StoryMenuState extends MusicBeatState
 	public static var weekUnlocked:Array<Bool> = [true, true, true, true, true, true, true, true, true, true, true];
 
 	var weekCharacters:Array<Dynamic> = [
-		['empty', 'bf', 'gf'],
+		['dad', 'bf', 'gf'],
+		['dad', 'bf', 'gf'],
+		['spooky', 'bf', 'gf'],
+		['pico', 'bf', 'gf'],
+		['mom', 'bf', 'gf'],
+		['parents-christmas', 'bf', 'gf'],
+		['senpai', 'bf', 'gf'],
 		['empty', 'empty', 'empty'],
 		['empty', 'empty', 'empty'],
 		['empty', 'empty', 'empty'],
@@ -54,7 +66,13 @@ class StoryMenuState extends MusicBeatState
 	];
 
 	var weekNames:Array<String> = [
-		"Tutorial",
+		"",
+		"Daddy Dearest",
+		"Spooky Month",
+		"PICO",
+		"MOMMY MUST MURDER",
+		"RED SNOW",
+		"hating simulator ft. moawling",
 		"Dave's Fun Rapping Battle!",
 		"Mr. Bambi's Fun Corn Maze!",
 		"The Finale",
@@ -187,11 +205,24 @@ class StoryMenuState extends MusicBeatState
 	
 				switch (weekCharacterThing.character)
 				{
+					case 'dad':
+						weekCharacterThing.setGraphicSize(Std.int(weekCharacterThing.width * 0.5));
+						weekCharacterThing.updateHitbox();
+	
 					case 'bf':
 						weekCharacterThing.setGraphicSize(Std.int(weekCharacterThing.width * 0.9));
 						weekCharacterThing.updateHitbox();
 						weekCharacterThing.x -= 80;
 					case 'gf':
+						weekCharacterThing.setGraphicSize(Std.int(weekCharacterThing.width * 0.5));
+						weekCharacterThing.updateHitbox();
+						
+					case 'pico':
+						weekCharacterThing.flipX = true;
+					case 'parents-christmas':
+						weekCharacterThing.setGraphicSize(Std.int(weekCharacterThing.width * 0.9));
+						weekCharacterThing.updateHitbox();
+					case 'dave':
 						weekCharacterThing.setGraphicSize(Std.int(weekCharacterThing.width * 0.5));
 						weekCharacterThing.updateHitbox();
 				}
@@ -423,7 +454,7 @@ class StoryMenuState extends MusicBeatState
 		sprDifficulty.offset.x = 0;
 		switch (curWeek)
 		{
-			case 3:
+			case 9:
 				sprDifficulty.animation.play('finale');
 				sprDifficulty.offset.x = 45;
 			default:
@@ -452,7 +483,7 @@ class StoryMenuState extends MusicBeatState
 	function changeDifficulty(change:Int = 0):Void
 	{
 		curDifficulty += change;
-		if (curWeek == 1)
+		if (curWeek == 7)
 		{
 		if (curDifficulty < 0)
 			curDifficulty = 3;
@@ -466,7 +497,7 @@ class StoryMenuState extends MusicBeatState
 			if (curDifficulty > 2)
 				curDifficulty = 0;
 		}
-		if (curWeek == 3)
+		if (curWeek == 9)
 		{
 			curDifficulty = 1;
 		}
@@ -498,16 +529,16 @@ class StoryMenuState extends MusicBeatState
 			curIndex = 0;
 		if (curIndex < 0)
 			curIndex = weekData.length - 1;
-		if (actualWeeks[curIndex] == 4 && !tristanunlocked) curIndex += (change > 0 ? 1 : -1); //repeat it again
+		if (actualWeeks[curIndex] == 10 && !tristanunlocked) curIndex += (change > 0 ? 1 : -1); //repeat it again
 		curWeek = actualWeeks[curIndex];
-		if (curWeek != 1) //no trying to use unnerfed on non-week 7 songs
+		if (curWeek != 7) //no trying to use unnerfed on non-week 7 songs
 		{
 			if (curDifficulty < 0)
 				curDifficulty = 2;
 			if (curDifficulty > 2)
 				curDifficulty = 0;
 		}
-		if (curWeek == 3)
+		if (curWeek == 9)
 		{
 			curDifficulty = 1;
 			leftArrow.visible = false;
@@ -548,13 +579,13 @@ class StoryMenuState extends MusicBeatState
 		var position:FlxPoint;
 		switch (curWeek)
 		{
-			case 1:
+			case 7:
 				path = Paths.image("dave/DaveHouse", "shared");
 				position = new FlxPoint(600, 55);
-			case 2:
+			case 8:
 				path = Paths.image("dave/bamboi", "shared");
 				position = new FlxPoint(600, 55);
-			case 3:
+			case 9:
 				path = Paths.image("dave/splitathon", "shared");
 				position = new FlxPoint(600, 55);
 			default:

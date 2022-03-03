@@ -29,6 +29,7 @@ class HealthIcon extends FlxSprite
 
 		antialiasing = true;
 		animation.add('bf', [0, 1], 0, false, isPlayer);
+		animation.add('bf-car', [0, 1], 0, false, isPlayer);
 		animation.add('bf-christmas', [0, 1], 0, false, isPlayer);
 		animation.add('bf-pixel', [2, 2], 0, false, isPlayer);
 		animation.add('bf-old', [3, 4], 0, false, isPlayer);
@@ -63,6 +64,19 @@ class HealthIcon extends FlxSprite
 
 		animation.add('the-duo', [16, 17], 0, false, isPlayer);
 		animation.add('what-lmao', [18, 19], 0, false, isPlayer);
+
+		animation.add('spooky', [42, 43], 0, false, isPlayer);
+		animation.add('pico', [44, 45], 0, false, isPlayer);
+		animation.add('mom', [46, 47], 0, false, isPlayer);
+		animation.add('mom-car', [46, 47], 0, false, isPlayer);
+		animation.add('dad', [48, 49], 0, false, isPlayer);
+		animation.add('parents-christmas', [50, 51], 0, false, isPlayer);
+		animation.add('monster', [52, 53], 0, false, isPlayer);
+		animation.add('monster-christmas', [52, 53], 0, false, isPlayer);
+		animation.add('senpai', [54, 54], 0, false, isPlayer);
+		animation.add('senpai-angry', [54, 54], 0, false, isPlayer);
+		animation.add('spirit', [55, 55], 0, false, isPlayer);
+		
 		animation.play(char);
 		if (noAaChars.contains(char))
 		{

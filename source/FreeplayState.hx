@@ -53,7 +53,13 @@ class FreeplayState extends MusicBeatState
 	var loadingPack:Bool = false;
 
 	var songColors:Array<FlxColor> = [
-    	0xFFca1f6f, // GF
+		0xFFca1f6f, // GF
+        0xFFc885e5, // DAD
+        0xFFf9a326, // SPOOKY
+        0xFFceec75, // PICO
+        0xFFec7aac, // MOM
+        0xFFffffff, // PARENTS-CHRISTMAS
+        0xFFffaa6f, // SENPAI
 		0xFF4965FF, // DAVE
 		0xFF00B515, // MISTER BAMBI RETARD
 		0xFF00FFFF, //SPLIT THE THONNNNN
@@ -100,23 +106,31 @@ class FreeplayState extends MusicBeatState
 		{
 			case 'base':
 				addWeek(['Tutorial'], 0, ['gf']);
+				addWeek(['Bopeebo', 'Fresh', 'Dadbattle'], 1, ['dad']);
+				addWeek(['Spookeez', 'South', 'Monster'], 2, ['spooky', 'spooky', 'monster']);
+				addWeek(['Pico', 'Philly', 'Blammed'], 3, ['pico']);
+
+				addWeek(['Satin-Panties', 'High', 'Milf'], 4, ['mom']);
+				addWeek(['Cocoa', 'Eggnog', 'Winter-Horrorland'], 5, ['parents-christmas', 'parents-christmas', 'monster-christmas']);
+				
+				addWeek(['Senpai', 'Roses', 'Thorns'], 6, ['senpai', 'senpai', 'spirit']);
 			case 'dave':
-				addWeek(['House', 'Insanity', 'Polygonized'], 1, ['dave', 'dave', 'dave-angey']);
-				addWeek(['Bonus-Song'], 1,['dave']);
-				addWeek(['Blocked','Corn-Theft','Maze',], 2, ['bambi']);
-				addWeek(['Splitathon'], 3,['the-duo']);
+				addWeek(['House', 'Insanity', 'Polygonized'], 7, ['dave', 'dave', 'dave-angey']);
+				addWeek(['Bonus-Song'], 7,['dave']);
+				addWeek(['Blocked','Corn-Theft','Maze',], 8, ['bambi']);
+				addWeek(['Splitathon'], 9,['the-duo']);
 			case 'joke':
-				addWeek(['Supernovae', 'Glitch'], 2, ['bambi-stupid']);
+				addWeek(['Supernovae', 'Glitch'], 8, ['bambi-stupid']);
 				if (FlxG.save.data.cheatingFound)
-				addWeek(['Cheating'], 2, ['bambi-3d']);
+				addWeek(['Cheating'], 8, ['bambi-3d']);
 				if(FlxG.save.data.unfairnessFound)
-				addWeek(['Unfairness'], 2, ['bambi-unfair']);
+				addWeek(['Unfairness'], 8, ['bambi-unfair']);
 			case 'extra':
-				addWeek(['Furiosity'], 1, ['dave-angey', 'dave-old']);
-				addWeek(['Mealie'], 2, ['bambi-loser']);
+				addWeek(['Furiosity'], 7, ['dave-angey', 'dave-old']);
+				addWeek(['Mealie'], 8, ['bambi-loser']);
 			case 'old':
-				addWeek(['Old-Insanity'], 1, ['dave-old']);
-				addWeek(['Old-Corn-Theft' , 'Old-Maze'], 2, ['bambi-farmer-beta', 'bambi-farmer-beta']);
+				addWeek(['Old-Insanity'], 7, ['dave-old']);
+				addWeek(['Old-Corn-Theft' , 'Old-Maze'], 8, ['bambi-farmer-beta', 'bambi-farmer-beta']);
 		}
 	}
 	public function GoToActualFreeplay()
@@ -291,7 +305,7 @@ class FreeplayState extends MusicBeatState
 	function changeDiff(change:Int = 0)
 	{
 		curDifficulty += change;
-		if (songs[curSelected].week != 1 && songs[curSelected].songName.toLowerCase() != 'blocked' || songs[curSelected].songName == 'Old-Insanity')
+		if (songs[curSelected].week != 7 && songs[curSelected].songName.toLowerCase() != 'blocked' || songs[curSelected].songName == 'Old-Insanity')
 		{
 		if (curDifficulty < 0)
 			curDifficulty = 2;
@@ -305,7 +319,7 @@ class FreeplayState extends MusicBeatState
 			if (curDifficulty > 3)
 				curDifficulty = 0;
 		}
-		if (songs[curSelected].week == 3)
+		if (songs[curSelected].week == 9)
 		{
 			curDifficulty = 1;
 		}
@@ -326,7 +340,7 @@ class FreeplayState extends MusicBeatState
 		}
 		switch (songs[curSelected].week)
 		{
-			case 3:
+			case 9:
 				diffText.text = 'FINALE' + " - " + stupidBitch.toUpperCase();
 			default:
 				switch (curDifficulty)
@@ -354,16 +368,15 @@ class FreeplayState extends MusicBeatState
 		if (curSelected >= songs.length)
 			curSelected = 0;
 
-		if (songs[curSelected].week != 1 || songs[curSelected].songName == 'Old-Insanity')
+		if (songs[curSelected].week != 7 || songs[curSelected].songName == 'Old-Insanity')
 		{
 			if (curDifficulty < 0)
 				curDifficulty = 2;
-
 			if (curDifficulty > 2)
 				curDifficulty = 0;
 		}
 
-		if (songs[curSelected].week == 3)
+		if (songs[curSelected].week == 9)
 		{
 			curDifficulty = 1;
 		}
