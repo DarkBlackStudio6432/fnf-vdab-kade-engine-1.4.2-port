@@ -5648,6 +5648,10 @@ class PlayState extends MusicBeatState
 		boyfriend.stunned = false;
 	}
 
+
+	//this is cuz splitathon dave expressions are now baked INTO the sprites! so cool! bonuses of this include:
+	// - Not having to cache every expression
+	// - Being able to reuse them for other things (ie. lookup for scared)
 	public function splitterThonDave(expression:String):Void
 	{
 		boyfriend.stunned = true; //hopefully this stun stuff should prevent BF from randomly missing a note
