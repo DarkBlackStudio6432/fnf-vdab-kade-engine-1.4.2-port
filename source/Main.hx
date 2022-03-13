@@ -2,6 +2,7 @@ package;
 
 import openfl.display.BlendMode;
 import openfl.text.TextFormat;
+import openfl.text.TextField;
 import openfl.display.Application;
 import flixel.util.FlxColor;
 import flixel.FlxG;
@@ -22,6 +23,8 @@ class Main extends Sprite
 	var framerate:Int = 144; // How many frames per second the game should run at.
 	var skipSplash:Bool = true; // Whether to skip the flixel splash screen that appears in release mode.
 	var startFullscreen:Bool = false; // Whether to start the game in fullscreen on desktop targets
+	public static var memoryCounter:MemoryCounter;
+	public static var fps:FPS;
 
 	public static var watermarks = true; // Whether to put Kade Engine liteartly anywhere
 
@@ -103,8 +106,13 @@ class Main extends Sprite
 		#end
 
 		#if !mobile
-		fpsCounter = new FPS(10, 3, 0xFFFFFF);
-		addChild(fpsCounter);
+		fps = new FPS(8, 3, 0xFFFFFF);
+		fps.defaultTextFormat = new TextFormat("Comic Sans MS Bold", 8, 0xFFFFFF, true);
+		addChild(fps);
+		
+		memoryCounter = new MemoryCounter(8, 3, 0xffffff);
+		memoryCounter.defaultTextFormat = new TextFormat("Comic Sans MS Bold", 8, 0xFFFFFF, true);
+		addChild(memoryCounter);
 		toggleFPS(FlxG.save.data.fps);
 
 		#end
@@ -112,15 +120,15 @@ class Main extends Sprite
 
 	var game:FlxGame;
 
-	var fpsCounter:FPS;
-
 	public function toggleFPS(fpsEnabled:Bool):Void {
-		fpsCounter.visible = fpsEnabled;
+		fps.visible = fpsEnabled;
+		memoryCounter.visible = fpsEnabled;
 	}
 
 	public function changeFPSColor(color:FlxColor)
 	{
-		fpsCounter.textColor = color;
+		fps.textColor = color;
+		memoryCounter.textColor = color;
 	}
 
 	public function setFPSCap(cap:Float)
@@ -135,6 +143,6 @@ class Main extends Sprite
 
 	public function getFPS():Float
 	{
-		return fpsCounter.currentFPS;
+		return fps.currentFPS;
 	}
 }

@@ -14,27 +14,39 @@ class GameOverSubstate extends MusicBeatSubstate
 
 	var stageSuffix:String = "";
 
-	public function new(x:Float, y:Float)
+	public function new(x:Float, y:Float,char:String)
 	{
 		var daStage = PlayState.curStage;
 		var daBf:String = '';
-		switch (daStage)
+		switch (char)
 		{
-			case 'school':
+			case 'bf-pixel':
 				stageSuffix = '-pixel';
-				daBf = 'bf-pixel-dead';
-			case 'schoolEvil':
-				stageSuffix = '-pixel';
-				daBf = 'bf-pixel-dead';
 			default:
-				daBf = 'bf';
+				daBf = 'bf-death';
+		}
+		if (char == "bf-pixel")
+		{
+			char = "bf-pixel-dead";
+		}
+		if (char == "what-lmao")
+		{
+			char = "bambi-bevel";
+		}
+		if (char == "bf-car")
+		{
+			char = "bf-death";
 		}
 
 		super();
 
 		Conductor.songPosition = 0;
 
-		bf = new Boyfriend(x, y, daBf);
+		bf = new Boyfriend(x, y, char);
+		if(bf.animation.getByName('firstDeath') == null)
+		{
+			bf = new Boyfriend(x, y, "bf");
+		}
 		add(bf);
 
 		camFollow = new FlxObject(bf.getGraphicMidpoint().x, bf.getGraphicMidpoint().y, 1, 1);
@@ -68,7 +80,6 @@ class GameOverSubstate extends MusicBeatSubstate
 				FlxG.switchState(new StoryMenuState());
 			else
 				FlxG.switchState(new FreeplayState());
-			PlayState.loadRep = false;
 		}
 
 		if (bf.animation.curAnim.name == 'firstDeath' && bf.animation.curAnim.curFrame == 12)

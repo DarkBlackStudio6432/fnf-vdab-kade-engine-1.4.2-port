@@ -1,5 +1,6 @@
 package;
 
+import cpp.Lib;
 import Shaders.InvertShader;
 import flixel.FlxG;
 import flixel.FlxSprite;
@@ -24,8 +25,13 @@ class Alphabet extends FlxSpriteGroup
 
 	public var text:String = "";
 
+	public var itemType:String = "Classic";
+
 	var _finalText:String = "";
 	var _curText:String = "";
+
+	var groupX:Float = 90;
+	var groupY:Float = 0.48;
 
 	public var SwitchXandY:Bool = false;
 
@@ -80,8 +86,11 @@ class Alphabet extends FlxSpriteGroup
 				lastWasSpace = true;
 			}
 
-			if (AlphaCharacter.alphabet.indexOf(character.toLowerCase()) != -1)
-				// if (AlphaCharacter.alphabet.contains(character.toLowerCase()))
+			var isNumber:Bool = AlphaCharacter.numbers.indexOf(character) != -1;
+			var isAlphabet:Bool = AlphaCharacter.alphabet.indexOf(character.toLowerCase()) != -1;
+
+			if (AlphaCharacter.alphabet.indexOf(character.toLowerCase()) != -1 || isNumber || isAlphabet)
+				// if (AlphaCharacter.alphabet.contains(splitWords[loopNum].toLowerCase()) || isNumber || isSymbol)
 			{
 				if (lastSprite != null)
 				{
@@ -98,10 +107,26 @@ class Alphabet extends FlxSpriteGroup
 				var letter:AlphaCharacter = new AlphaCharacter(xPos, 0);
 
 				if (isBold)
-					letter.createBold(character);
+				{
+					if (isNumber)
+					{
+						letter.createBoldNumber(character);
+					}
+					else
+					{
+						letter.createBold(character);
+					}
+				}
 				else
 				{
-					letter.createLetter(character);
+					if (isNumber)
+					{
+						letter.createNumber(character);
+					}
+					else
+					{
+						letter.createLetter(character);
+					}
 				}
 
 				add(letter);
@@ -184,7 +209,14 @@ class Alphabet extends FlxSpriteGroup
 				letter.row = curRow;
 				if (isBold)
 				{
-					letter.createBold(splitWords[loopNum]);
+					if (isNumber)
+					{
+						letter.createBoldNumber(splitWords[loopNum]);
+					}
+					else
+					{
+						letter.createBold(splitWords[loopNum]);
+					}
 				}
 				else
 				{
@@ -225,19 +257,31 @@ class Alphabet extends FlxSpriteGroup
 	{
 		if (isMenuItem)
 		{
-			if (SwitchXandY)
+			var scaledY = FlxMath.remapToRange(targetY, 0, 1, 0, 1.3);
+			switch (itemType) 
 			{
-				var scaledX = FlxMath.remapToRange(targetY, 0, 1, 0, 1.3);
+				case "Classic":
+					x = FlxMath.lerp(x, (targetY * 20) + groupX, 0.16 / (openfl.Lib.application.window.frameRate / 60));
+					y = FlxMath.lerp(y, (scaledY * 120) + (FlxG.height * groupY), 0.16 / (openfl.Lib.application.window.frameRate / 60));
+				case "Vertical":
+					y = FlxMath.lerp(y, (scaledY * 120) + (FlxG.height * 0.5), 0.16 / (openfl.Lib.application.window.frameRate / 60));
+				case "C-Shape":
+					y = FlxMath.lerp(y, (scaledY * 65) + (FlxG.height * 0.39), 0.16 / (openfl.Lib.application.window.frameRate / 60));
 
-				x = FlxMath.lerp(x, (scaledX * 120) + (text.length * 30), 0.16);
-				//y = FlxMath.lerp(y, (targetY * 20) + 90, 0.16);
-			}
-			else
-			{
-				var scaledY = FlxMath.remapToRange(targetY, 0, 1, 0, 1.3);
+					x = FlxMath.lerp(x, Math.exp(scaledY * 0.8) * 70 + (FlxG.width * 0.1), 0.16 / (openfl.Lib.application.window.frameRate / 60));
+					if (scaledY < 0)
+						x = FlxMath.lerp(x, Math.exp(scaledY * -0.8) * 70 + (FlxG.width * 0.1), 0.16 / (openfl.Lib.application.window.frameRate / 60));
 
-				y = FlxMath.lerp(y, (scaledY * 120) + (FlxG.height * 0.48), 0.16);
-				x = FlxMath.lerp(x, (targetY * 20) + 90, 0.16);	
+					if (x > FlxG.width + 30)
+						x = FlxG.width + 30;
+
+				case "D-Shape":
+					y = FlxMath.lerp(y, (scaledY * 90) + (FlxG.height * 0.45), 0.16 / (openfl.Lib.application.window.frameRate / 60));
+
+					x = FlxMath.lerp(x, Math.exp(Math.abs(scaledY * 0.8)) * -70 + (FlxG.width * 0.35), 0.16 / (openfl.Lib.application.window.frameRate / 60));
+
+					if (x < -900)
+						x = -900;
 			}
 		}
 
@@ -267,6 +311,13 @@ class AlphaCharacter extends FlxSprite
 	public function createBold(letter:String)
 	{
 		animation.addByPrefix(letter, letter.toUpperCase() + " bold", 24);
+		animation.play(letter);
+		updateHitbox();
+	}
+
+	public function createBoldNumber(letter:String):Void
+	{
+		animation.addByPrefix(letter, "bold" + letter, 24);
 		animation.play(letter);
 		updateHitbox();
 	}

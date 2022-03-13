@@ -18,7 +18,7 @@ import sys.io.File;
 
 class LoadReplayState extends MusicBeatState
 {
-	var selector:FlxText;
+	/*var selector:FlxText;
 	var curSelected:Int = 0;
 
     var songs:Array<FreeplayState.SongMetadata> = [];
@@ -39,14 +39,18 @@ class LoadReplayState extends MusicBeatState
 
         controlsStrings.sort(Reflect.compare);
 
-        addWeek(['Bopeebo', 'Fresh', 'Dadbattle'], 1, ['dad']);
-        addWeek(['Spookeez', 'South', 'Monster'], 2, ['spooky']);
-        addWeek(['Pico', 'Philly', 'Blammed'], 3, ['pico']);
-
-        addWeek(['Satin-Panties', 'High', 'Milf'], 4, ['mom']);
-        addWeek(['Cocoa', 'Eggnog', 'Winter-Horrorland'], 5, ['parents-christmas', 'parents-christmas', 'monster-christmas']);
-        
-        addWeek(['Senpai', 'Roses', 'Thorns'], 6, ['senpai', 'senpai', 'spirit']);
+		addWeek(['Tutorial'], 0, ['gf']);
+		addWeek(['House', 'Insanity', 'Polygonized'], 1, ['dave', 'dave', 'dave-angey']);
+		addWeek(['Bonus-Song'], 1,['dave']);
+		addWeek(['Blocked','Corn-Theft','Maze',], 2, ['bambi']);
+		addWeek(['Splitathon'], 3,['the-duo']);
+		addWeek(['Supernovae', 'Glitch', 'Vs-Dave-Thanksgiving'], 2, ['bambi-stupid']);
+		addWeek(['Cheating'], 2, ['bambi-3d']);
+		addWeek(['Unfairness'], 2, ['bambi-unfair']);
+		addWeek(['Mealie'], 2, ['bambi-loser']);
+		addWeek(['Furiosity', 'Old-House', 'Old-Insanity'], 1, ['dave-angey', 'dave-old', 'dave-old']);
+		addWeek(['Old-Blocked', 'Old-Corn-Theft', 'Old-Maze', 'Beta-Maze'], 2, ['bambi-farmer-beta', 'bambi-farmer-beta', 'bambi-farmer-beta', 'bambi-farmer-beta']);
+		addWeek(['Old-Splitathon'], 3, ['the-duo']);
 
 
         for(i in 0...controlsStrings.length)
@@ -197,5 +201,5 @@ class LoadReplayState extends MusicBeatState
 				// item.setGraphicSize(Std.int(item.width));
 			}
 		}
-	}
+	}*/
 }

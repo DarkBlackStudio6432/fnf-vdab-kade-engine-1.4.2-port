@@ -13,6 +13,9 @@ class KadeEngineData
 
 		if (FlxG.save.data.dfjk == null)
 			FlxG.save.data.dfjk = false;
+
+		if (FlxG.save.data.freeplayCuts == null)
+			FlxG.save.data.freeplayCuts = false;
 			
 		if (FlxG.save.data.accuracyDisplay == null)
 			FlxG.save.data.accuracyDisplay = true;
@@ -40,10 +43,10 @@ class KadeEngineData
 			FlxG.save.data.fpsRain = false;
 
 		if (FlxG.save.data.fpsCap == null)
-			FlxG.save.data.fpsCap = 120;
+			FlxG.save.data.fpsCap = 144;
 
-		if (FlxG.save.data.fpsCap > 285 || FlxG.save.data.fpsCap < 60)
-			FlxG.save.data.fpsCap = 120; // baby proof so you can't hard lock ur copy of kade engine
+		if (FlxG.save.data.fpsCap > 144 || FlxG.save.data.fpsCap < 144)
+			FlxG.save.data.fpsCap = 144; // baby proof so you can't hard lock ur copy of kade engine
 		
 		if (FlxG.save.data.scrollSpeed == null)
 			FlxG.save.data.scrollSpeed = 1;
@@ -59,6 +62,22 @@ class KadeEngineData
 
 		if (FlxG.save.data.watermark == null)
 			FlxG.save.data.watermark = true;
+
+		if (FlxG.save.data.eyesores == null)
+			FlxG.save.data.eyesores = true;
+
+		if (FlxG.save.data.donoteclickoppo == null)
+			FlxG.save.data.donoteclickoppo = false;
+
+		if (FlxG.save.data.donoteclick == null)
+			FlxG.save.data.donoteclick = false;
+
+		if (FlxG.save.data.custom3dnote == null)
+			FlxG.save.data.custom3dnote = false;
+
+		if (FlxG.save.data.kadeInput == null)
+			FlxG.save.data.kadeInput = false;
+
 
 		Conductor.recalculateTimings();
 

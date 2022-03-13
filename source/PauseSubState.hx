@@ -181,7 +181,6 @@ class PauseSubState extends MusicBeatSubstate
 				case "Exit to menu":
 					PlayState.characteroverride = 'none';
 					PlayState.formoverride = 'none';
-					PlayState.loadRep = false;
 					if (PlayState.lua != null)
 					{
 						Lua.close(PlayState.lua);

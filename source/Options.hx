@@ -261,9 +261,9 @@ class FPSCapOption extends Option
 	}
 	
 	override function right():Bool {
-		if (FlxG.save.data.fpsCap > 290)
+		if (FlxG.save.data.fpsCap > 144)
 			return false;
-		FlxG.save.data.fpsCap = FlxG.save.data.fpsCap + 10;
+		FlxG.save.data.fpsCap = FlxG.save.data.fpsCap + 0;
 		(cast (Lib.current.getChildAt(0), Main)).setFPSCap(FlxG.save.data.fpsCap);
 
 		OptionsMenu.versionShit.text = "Current FPS Cap: " + FlxG.save.data.fpsCap + " - Description - " + description;
@@ -272,9 +272,9 @@ class FPSCapOption extends Option
 	}
 
 	override function left():Bool {
-		if (FlxG.save.data.fpsCap < 60)
+		if (FlxG.save.data.fpsCap < 144)
 			return false;
-		FlxG.save.data.fpsCap = FlxG.save.data.fpsCap - 10;
+		FlxG.save.data.fpsCap = FlxG.save.data.fpsCap - 0;
 		(cast (Lib.current.getChildAt(0), Main)).setFPSCap(FlxG.save.data.fpsCap);
 
 		OptionsMenu.versionShit.text = "Current FPS Cap: " + FlxG.save.data.fpsCap + " - Description - " + description;
@@ -392,7 +392,7 @@ class EyesoresOption extends Option
 
 	private override function updateDisplay():String
 	{
-		return "Eyesores lol " + (!FlxG.save.data.eyesores ? "off" : "on");
+		return "Eyesores " + (!FlxG.save.data.eyesores ? "off" : "on");
 	}
 }
 
@@ -414,6 +414,111 @@ class FreeplayCutscenesOption extends Option
 	private override function updateDisplay():String
 	{
 		return "Freeplay Cutscene " + (!FlxG.save.data.freeplayCuts ? "off" : "on");
+	}
+}
+
+class NoteClickOppoOption extends Option
+{
+	public function new(desc:String)
+	{
+		super();
+		description = desc;
+	}
+
+	public override function press():Bool
+	{
+		FlxG.save.data.donoteclickoppo = !FlxG.save.data.donoteclickoppo;
+		display = updateDisplay();
+		return true;
+	}
+
+	private override function updateDisplay():String
+	{
+		return "Note Click Opponent " + (!FlxG.save.data.donoteclickoppo ? "off" : "on");
+	}
+}
+
+class NoteClickOption extends Option
+{
+	public function new(desc:String)
+	{
+		super();
+		description = desc;
+	}
+
+	public override function press():Bool
+	{
+		FlxG.save.data.donoteclick = !FlxG.save.data.donoteclick;
+		display = updateDisplay();
+		return true;
+	}
+
+	private override function updateDisplay():String
+	{
+		return "Note Click Player " + (!FlxG.save.data.donoteclick ? "off" : "on");
+	}
+}
+
+class GhostTappingOption extends Option
+{
+	public function new(desc:String)
+	{
+		super();
+		description = desc;
+	}
+
+	public override function press():Bool
+	{
+		FlxG.save.data.newInput = !FlxG.save.data.newInput;
+		display = updateDisplay();
+		return true;
+	}
+
+	private override function updateDisplay():String
+	{
+		return "" + (!FlxG.save.data.newInput ? "No Ghost Tapping" : "Ghost Tapping");
+	}
+}
+
+class NoteSkin3DOption extends Option
+{
+	public function new(desc:String)
+	{
+		super();
+		description = desc;
+	}
+
+	public override function press():Bool
+	{
+		FlxG.save.data.custom3dnote = !FlxG.save.data.custom3dnote;
+		display = updateDisplay();
+		return true;
+	}
+
+	private override function updateDisplay():String
+	{
+		return "" + (!FlxG.save.data.custom3dnote ? "Original 3D NoteSkin" : "Golden Apple 3D NoteSkin");
+	}
+}
+
+class KadeInputOption extends Option
+{
+	public function new(desc:String)
+	{
+		super();
+		description = desc;
+	}
+
+	public override function press():Bool
+	{
+		FlxG.save.data.kadeInput = !FlxG.save.data.kadeInput;
+		display = updateDisplay();
+		return true;
+	}
+
+	private override function updateDisplay():String
+	{
+		return "" + (!FlxG.save.data.kadeInput ? "VDAB Input" : "Kade Input");
 	}
 }
 

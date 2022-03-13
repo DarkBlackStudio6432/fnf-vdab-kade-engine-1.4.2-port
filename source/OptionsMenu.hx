@@ -20,8 +20,10 @@ class OptionsMenu extends MusicBeatState
 	var curSelected:Int = 0;
 
 	var options:Array<OptionCatagory> = [
-		new OptionCatagory("Gameplay", [
+		new OptionCatagory("Gameplay", 
+		[
 			new DFJKOption(controls),
+			new DownscrollOption("Change the layout of the strumline."),
 			new Judgement("Customize your Hit Timings (LEFT or RIGHT)"),
 			#if desktop
 			new FPSCapOption("Cap your FPS (Left for -10, Right for +10. SHIFT to go faster)"),
@@ -31,9 +33,9 @@ class OptionsMenu extends MusicBeatState
 			// new OffsetMenu("Get a note offset based off of your inputs!"),
 			new CustomizeGameplay("Drag'n'Drop Gameplay Modules around to your preference")
 		]),
-		new OptionCatagory("Appearence", [
+		new OptionCatagory("Appearence", 
+		[
 			new SongPositionOption("Show the songs current position (as a bar)"),
-			new DownscrollOption("Change the layout of the strumline."),
 			#if desktop
 			new RainbowFPSOption("Make the FPS Counter Rainbow (Only works with the FPS Counter toggeled on)"),
 			#end
@@ -41,17 +43,23 @@ class OptionsMenu extends MusicBeatState
 			new NPSDisplayOption("Shows your current Notes Per Second.")
 		]),
 		
-		new OptionCatagory("Misc", [
+		new OptionCatagory("Misc", 
+		[
 			#if desktop
 			new FPSOption("Toggle the FPS Counter"),
-			new ReplayOption("View replays"),
-			#end
+			#end 
 			new WatermarkOption("Turn off all watermarks from the engine.")
 			
 		]),
-		new OptionCatagory("Dave And Bambi", [
+		new OptionCatagory("More", 
+		[
 			new EyesoresOption("Disable The Thing that makes your eyes die"),
-			new FreeplayCutscenesOption("Disable The Thing that makes your eyes die")
+			new FreeplayCutscenesOption("Freeplay Cutscenes"),
+			new NoteSkin3DOption("Note Skin 3D."),
+			new NoteClickOppoOption("Note click thing when you press a note (Opponent)"),
+			new NoteClickOption("Note click thing when you press a note (player)"),
+			new GhostTappingOption("Ghost Tapping"),
+			new KadeInputOption("The Kade Input is from KE 1.2"),
 			
 		])
 		
@@ -65,13 +73,14 @@ class OptionsMenu extends MusicBeatState
 
 	override function create()
 	{
-		var menuBG:FlxSprite = new FlxSprite().loadGraphic(Paths.image("menuDesat"));
+		var menuBG:FlxSprite = new FlxSprite().loadGraphic(Paths.image('backgrounds/SUSSUS AMOGUS'));
 
 		menuBG.color = 0xFFea71fd;
 		menuBG.setGraphicSize(Std.int(menuBG.width * 1.1));
 		menuBG.updateHitbox();
 		menuBG.screenCenter();
 		menuBG.antialiasing = true;
+		menuBG.loadGraphic(MainMenuState.randomizeBG());
 		add(menuBG);
 
 		grpControls = new FlxTypedGroup<Alphabet>();
@@ -82,15 +91,17 @@ class OptionsMenu extends MusicBeatState
 			var controlLabel:Alphabet = new Alphabet(0, (70 * i) + 30, options[i].getName(), true, false);
 			controlLabel.isMenuItem = true;
 			controlLabel.targetY = i;
+			controlLabel.screenCenter(X);
+			controlLabel.itemType = 'Vertical';
 			grpControls.add(controlLabel);
 			// DONT PUT X IN THE FIRST PARAMETER OF new ALPHABET() !!
 		}
 
 		currentDescription = "none";
 
-		versionShit = new FlxText(5, FlxG.height - 18, 0, "Offset (Left, Right): " + FlxG.save.data.offset + " - Description - " + currentDescription, 12);
+		versionShit = new FlxText(5, FlxG.height - 24, 0, "Offset (Left, Right): " + FlxG.save.data.offset + " - Description - " + currentDescription, 12);
 		versionShit.scrollFactor.set();
-		versionShit.setFormat("VCR OSD Mono", 16, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+		versionShit.setFormat("Comic Sans MS Bold", 16, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 		add(versionShit);
 
 		super.create();
@@ -116,13 +127,15 @@ class OptionsMenu extends MusicBeatState
 				isCat = false;
 				grpControls.clear();
 				for (i in 0...options.length)
-					{
-						var controlLabel:Alphabet = new Alphabet(0, (70 * i) + 30, options[i].getName(), true, false);
-						controlLabel.isMenuItem = true;
-						controlLabel.targetY = i;
-						grpControls.add(controlLabel);
-						// DONT PUT X IN THE FIRST PARAMETER OF new ALPHABET() !!
-					}
+				{
+					var controlLabel:Alphabet = new Alphabet(0, (70 * i) + 30, options[i].getName(), true, false);
+					controlLabel.isMenuItem = true;
+					controlLabel.targetY = i;
+					controlLabel.screenCenter(X);
+					controlLabel.itemType = 'Vertical';
+					grpControls.add(controlLabel);
+					// DONT PUT X IN THE FIRST PARAMETER OF new ALPHABET() !!
+				}
 				curSelected = 0;
 			}
 			if (controls.UP_P)
@@ -196,6 +209,8 @@ class OptionsMenu extends MusicBeatState
 						grpControls.remove(grpControls.members[curSelected]);
 						var ctrl:Alphabet = new Alphabet(0, (70 * curSelected) + 30, currentSelectedCat.getOptions()[curSelected].getDisplay(), true, false);
 						ctrl.isMenuItem = true;
+						ctrl.screenCenter(X);
+						ctrl.itemType = 'Vertical';
 						grpControls.add(ctrl);
 					}
 				}
@@ -209,6 +224,8 @@ class OptionsMenu extends MusicBeatState
 							var controlLabel:Alphabet = new Alphabet(0, (70 * i) + 30, currentSelectedCat.getOptions()[i].getDisplay(), true, false);
 							controlLabel.isMenuItem = true;
 							controlLabel.targetY = i;
+							controlLabel.screenCenter(X);
+							controlLabel.itemType = 'Vertical';
 							grpControls.add(controlLabel);
 							// DONT PUT X IN THE FIRST PARAMETER OF new ALPHABET() !!
 						}

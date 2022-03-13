@@ -13,12 +13,9 @@ import flixel.util.FlxColor;
 import flixel.tweens.FlxTween;
 import flixel.util.FlxStringUtil;
 import lime.utils.Assets;
-
-
-#if windows
+#if desktop
 import Discord.DiscordClient;
 #end
-
 using StringTools;
 
 class FreeplayState extends MusicBeatState
@@ -44,7 +41,7 @@ class FreeplayState extends MusicBeatState
 
 	private var CurrentSongIcon:FlxSprite;
 
-	private var AllPossibleSongs:Array<String> = ["Dave", "Joke", "Extra", "Old", "Base"];
+	private var AllPossibleSongs:Array<String> = ["Dave", "Joke", "Extra", 'Base'];
 
 	private var CurrentPack:Int = 0;
 
@@ -53,17 +50,10 @@ class FreeplayState extends MusicBeatState
 	var loadingPack:Bool = false;
 
 	var songColors:Array<FlxColor> = [
-		0xFFca1f6f, // GF
-        0xFFc885e5, // DAD
-        0xFFf9a326, // SPOOKY
-        0xFFceec75, // PICO
-        0xFFec7aac, // MOM
-        0xFFffffff, // PARENTS-CHRISTMAS
-        0xFFffaa6f, // SENPAI
+    	0xFFca1f6f, // GF
 		0xFF4965FF, // DAVE
 		0xFF00B515, // MISTER BAMBI RETARD
-		0xFF00FFFF, //SPLIT THE THONNNNN
-		0xFFB40431 //DAVE RE COLOOOR WOO
+		0xFF00FFFF //SPLIT THE THONNNNN
     ];
 
 	private var iconArray:Array<HealthIcon> = [];
@@ -92,7 +82,7 @@ class FreeplayState extends MusicBeatState
 		CurrentSongIcon.antialiasing = true;
 
 		NameAlpha = new Alphabet(40,(FlxG.height / 2) - 282,AllPossibleSongs[CurrentPack],true,false);
-		NameAlpha.x = (FlxG.width / 2) - 162;
+		NameAlpha.screenCenter(X);
 		Highscore.load();
 		add(NameAlpha);
 
@@ -100,77 +90,78 @@ class FreeplayState extends MusicBeatState
 
 		super.create();
 	}
+
 	public function LoadProperPack()
 	{
 		switch (AllPossibleSongs[CurrentPack].toLowerCase())
 		{
 			case 'base':
 				addWeek(['Tutorial'], 0, ['gf']);
-				addWeek(['Bopeebo', 'Fresh', 'Dadbattle'], 1, ['dad']);
-				addWeek(['Spookeez', 'South', 'Monster'], 2, ['spooky', 'spooky', 'monster']);
-				addWeek(['Pico', 'Philly', 'Blammed'], 3, ['pico']);
-
-				addWeek(['Satin-Panties', 'High', 'Milf'], 4, ['mom']);
-				addWeek(['Cocoa', 'Eggnog', 'Winter-Horrorland'], 5, ['parents-christmas', 'parents-christmas', 'monster-christmas']);
-				
-				addWeek(['Senpai', 'Roses', 'Thorns'], 6, ['senpai', 'senpai', 'spirit']);
 			case 'dave':
-				addWeek(['House', 'Insanity', 'Polygonized'], 7, ['dave', 'dave', 'dave-angey']);
-				addWeek(['Bonus-Song'], 7,['dave']);
-				addWeek(['Blocked','Corn-Theft','Maze',], 8, ['bambi']);
-				addWeek(['Splitathon'], 9,['the-duo']);
+				addWeek(['House', 'Insanity', 'Polygonized'], 1, ['dave', 'dave', 'dave-angey']);
+				addWeek(['Bonus-Song'], 1,['dave']);
+				addWeek(['Blocked','Corn-Theft','Maze',], 2, ['bambi']);
+				addWeek(['Splitathon'], 3,['the-duo']);
 			case 'joke':
-				addWeek(['Supernovae', 'Glitch'], 8, ['bambi-stupid']);
+				addWeek(['Supernovae', 'Glitch', 'Vs-Dave-Thanksgiving'], 2, ['bambi-stupid']);
 				if (FlxG.save.data.cheatingFound)
-				addWeek(['Cheating'], 8, ['bambi-3d']);
+					addWeek(['Cheating'], 2, ['bambi-3d']);
 				if(FlxG.save.data.unfairnessFound)
-				addWeek(['Unfairness'], 8, ['bambi-unfair']);
+					addWeek(['Unfairness'], 2, ['bambi-unfair']);
 			case 'extra':
-				addWeek(['Furiosity'], 7, ['dave-angey', 'dave-old']);
-				addWeek(['Mealie'], 8, ['bambi-loser']);
-			case 'old':
-				addWeek(['Old-Insanity'], 7, ['dave-old']);
-				addWeek(['Old-Corn-Theft' , 'Old-Maze'], 8, ['bambi-farmer-beta', 'bambi-farmer-beta']);
+				addWeek(['Mealie', 'Very-Screwed'], 2, ['bambi-loser', 'bambi-angey']);
+				addWeek(['Foolhardy'], 1, ['dave']);
+				addWeek(['Furiosity', 'Old-House', 'Old-Insanity'], 1, ['dave-angey', 'dave-old', 'dave-old']);
+				addWeek(['Old-Blocked', 'Old-Corn-Theft', 'Old-Maze', 'Beta-Maze'], 2, ['bambi-farmer-beta', 'bambi-farmer-beta', 'bambi-farmer-beta', 'bambi-farmer-beta']);
+				addWeek(['Old-Splitathon'], 3, ['the-duo']);
 		}
 	}
+
 	public function GoToActualFreeplay()
+	{
+		grpSongs = new FlxTypedGroup<Alphabet>();
+		add(grpSongs);
+
+		for (i in 0...songs.length)
 		{
-			grpSongs = new FlxTypedGroup<Alphabet>();
-			add(grpSongs);
-	
-			for (i in 0...songs.length)
-			{
-				var songText:Alphabet = new Alphabet(0, (70 * i) + 30, songs[i].songName, true, false);
-				songText.isMenuItem = true;
-				songText.targetY = i;
-				grpSongs.add(songText);
-	
-				var icon:HealthIcon = new HealthIcon(songs[i].songCharacter);
-				icon.sprTracker = songText;
-	
-				iconArray.push(icon);
-				add(icon);
-			}
-	
-			scoreText = new FlxText(FlxG.width * 0.7, 5, 0, "", 32);
-			scoreText.setFormat(Paths.font("vcr.ttf"), 32, FlxColor.WHITE, RIGHT);
-	
-			var scoreBG:FlxSprite = new FlxSprite(scoreText.x - 6, 0).makeGraphic(Std.int(FlxG.width * 0.35), 66, 0xFF000000);
-			scoreBG.alpha = 0.6;
-			add(scoreBG);
-	
-			diffText = new FlxText(scoreText.x, scoreText.y + 36, 0, "", 24);
-			diffText.font = scoreText.font;
-			add(diffText);
-	
-			add(scoreText);
-	
-			changeSelection();
-			changeDiff();
-	
-			var swag:Alphabet = new Alphabet(1, 0, "swag");
+			var songText:Alphabet = new Alphabet(0, (70 * i) + 30, songs[i].songName, true, false);
+			songText.isMenuItem = true;
+			songText.itemType = 'D-Shape';
+			songText.targetY = i;
+			grpSongs.add(songText);
+
+			var icon:HealthIcon = new HealthIcon(songs[i].songCharacter);
+			icon.sprTracker = songText;
+
+			iconArray.push(icon);
+			add(icon);
 		}
-	
+
+		scoreText = new FlxText(FlxG.width * 0.7, 5, 0, "", 32);
+		scoreText.setFormat(Paths.font("comic.ttf"), 32, FlxColor.WHITE, RIGHT);
+		scoreText.y = -200;
+
+		var scoreBG:FlxSprite = new FlxSprite(scoreText.x - 6, 0).makeGraphic(Std.int(FlxG.width * 1), 66, 0xFF000000);
+		scoreBG.alpha = 0.6;
+		scoreBG.y = -200;
+
+		diffText = new FlxText(scoreText.x, scoreText.y + 36, 0, "", 24);
+		diffText.font = scoreText.font;
+		diffText.y = -200;
+
+		add(diffText);
+
+		add(scoreText);
+
+		FlxTween.tween(scoreBG,{y: 0},0.5,{ease: FlxEase.expoInOut});
+		FlxTween.tween(scoreText,{y: 5},0.5,{ease: FlxEase.expoInOut});
+		FlxTween.tween(diffText,{y: 40},0.5,{ease: FlxEase.expoInOut});
+
+		changeSelection();
+		changeDiff();
+
+	}
+
 	public function addSong(songName:String, weekNum:Int, songCharacter:String)
 	{
 		songs.push(new SongMetadata(songName, weekNum, songCharacter));
@@ -189,7 +180,7 @@ class FreeplayState extends MusicBeatState
 		}
 		NameAlpha.destroy();
 		NameAlpha = new Alphabet(40,(FlxG.height / 2) - 282,AllPossibleSongs[CurrentPack],true,false);
-		NameAlpha.x = (FlxG.width / 2) - 164;
+		NameAlpha.screenCenter(X);
 		add(NameAlpha);
 		CurrentSongIcon.loadGraphic(Paths.image('week_icons_' + (AllPossibleSongs[CurrentPack].toLowerCase())));
 	}
@@ -305,21 +296,13 @@ class FreeplayState extends MusicBeatState
 	function changeDiff(change:Int = 0)
 	{
 		curDifficulty += change;
-		if (songs[curSelected].week != 7 && songs[curSelected].songName.toLowerCase() != 'blocked' || songs[curSelected].songName == 'Old-Insanity')
-		{
+
 		if (curDifficulty < 0)
 			curDifficulty = 2;
 		if (curDifficulty > 2)
 			curDifficulty = 0;
-		}
-		else
-		{
-			if (curDifficulty < 0)
-				curDifficulty = 3;
-			if (curDifficulty > 3)
-				curDifficulty = 0;
-		}
-		if (songs[curSelected].week == 9)
+
+		if (songs[curSelected].week == 3)
 		{
 			curDifficulty = 1;
 		}
@@ -340,7 +323,7 @@ class FreeplayState extends MusicBeatState
 		}
 		switch (songs[curSelected].week)
 		{
-			case 9:
+			case 3:
 				diffText.text = 'FINALE' + " - " + stupidBitch.toUpperCase();
 			default:
 				switch (curDifficulty)
@@ -368,15 +351,13 @@ class FreeplayState extends MusicBeatState
 		if (curSelected >= songs.length)
 			curSelected = 0;
 
-		if (songs[curSelected].week != 7 || songs[curSelected].songName == 'Old-Insanity')
-		{
-			if (curDifficulty < 0)
-				curDifficulty = 2;
-			if (curDifficulty > 2)
-				curDifficulty = 0;
-		}
+		if (curDifficulty < 0)
+			curDifficulty = 2;
 
-		if (songs[curSelected].week == 9)
+		if (curDifficulty > 2)
+			curDifficulty = 0;
+
+		if (songs[curSelected].week == 3)
 		{
 			curDifficulty = 1;
 		}

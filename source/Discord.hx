@@ -10,14 +10,12 @@ class DiscordClient
 {
 	public function new()
 	{
-		trace("Discord Client starting...");
 		DiscordRpc.start({
-			clientID: "557069829501091850", // change this to what ever the fuck you want lol
+			clientID: "879181607666327553",
 			onReady: onReady,
 			onError: onError,
 			onDisconnected: onDisconnected
 		});
-		trace("Discord Client started.");
 
 		while (true)
 		{
@@ -28,19 +26,14 @@ class DiscordClient
 
 		DiscordRpc.shutdown();
 	}
-
-	public static function shutdown()
-	{
-		DiscordRpc.shutdown();
-	}
-
+	
 	static function onReady()
 	{
 		DiscordRpc.presence({
 			details: "In the Menus",
 			state: null,
-			largeImageKey: 'icon',
-			largeImageText: "fridaynightfunkin"
+			largeImageKey: 'icon_logo',
+			largeImageText: "Vs Dave & Bambi'"
 		});
 	}
 
@@ -75,8 +68,8 @@ class DiscordClient
 		DiscordRpc.presence({
 			details: details,
 			state: state,
-			largeImageKey: 'icon',
-			largeImageText: "fridaynightfunkin",
+			largeImageKey: 'icon_logo',
+			largeImageText: "Vs Dave & Bambi'",
 			smallImageKey : smallImageKey,
 			// Obtained times are in milliseconds so they are divided so Discord can use it
 			startTimestamp : Std.int(startTimestamp / 1000),

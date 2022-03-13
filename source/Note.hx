@@ -16,7 +16,7 @@ using StringTools;
 
 class Note extends FlxSprite
 {
-	public var strumTime:Float = 0;
+	public var strumTime:Float = 0; //i hate kade 1.4.2
 
 	public var mustPress:Bool = false;
 	public var finishedGenerating:Bool = false;
@@ -26,9 +26,10 @@ class Note extends FlxSprite
 	public var wasGoodHit:Bool = false;
 	public var prevNote:Note;
 	public var modifiedByLua:Bool = false;
+	public var LocalScrollSpeed:Float = 1;
+
 	public var sustainLength:Float = 0;
 	public var isSustainNote:Bool = false;
-	public var LocalScrollSpeed:Float = 1;
 
 	public var noteScore:Float = 1;
 
@@ -44,7 +45,7 @@ class Note extends FlxSprite
 
 	private var InPlayState:Bool = false;
 
-	private var CharactersWith3D:Array<String> = ["dave-angey", "bambi-3d", "bambi-unfair"];
+	private var CharactersWith3D:Array<String> = ["dave-angey", "bambi-3d", 'dave-annoyed-3d', 'dave-3d-standing-bruh-what', 'bambi-unfair'];
 
 	public var rating:String = "shit";
 
@@ -61,7 +62,7 @@ class Note extends FlxSprite
 		x += 50;
 		// MAKE SURE ITS DEFINITELY OFF SCREEN?
 		y -= 2000;
-		this.strumTime = strumTime + FlxG.save.data.offset;
+		this.strumTime = strumTime;
 
 		if (this.strumTime < 0 )
 			this.strumTime = 0;
@@ -71,7 +72,10 @@ class Note extends FlxSprite
 		var daStage:String = PlayState.curStage;
 		if (((CharactersWith3D.contains(PlayState.SONG.player2) && !musthit) || ((CharactersWith3D.contains(PlayState.SONG.player1) || PlayState.characteroverride == "dave-angey") && musthit)) || ((CharactersWith3D.contains(PlayState.SONG.player2) || CharactersWith3D.contains(PlayState.SONG.player1)) && ((this.strumTime / 50) % 20 > 10)))
 		{
-				frames = Paths.getSparrowAtlas('NOTE_assets_3D');
+				if (FlxG.save.data.custom3dnote)
+					frames = Paths.getSparrowAtlas('NOTE_assets_3DAlt');
+				else
+					frames = Paths.getSparrowAtlas('NOTE_assets_3D');
 
 				animation.addByPrefix('greenScroll', 'green0');
 				animation.addByPrefix('redScroll', 'red0');
@@ -215,6 +219,7 @@ class Note extends FlxSprite
 		// we make sure its downscroll and its a SUSTAIN NOTE (aka a trail, not a note)
 		// and flip it so it doesn't look weird.
 		// THIS DOESN'T FUCKING FLIP THE NOTE, CONTRIBUTERS DON'T JUST COMMENT THIS OUT JESUS
+		// oh my god, SHUT THE FUCK UP KADE
 		if (FlxG.save.data.downscroll && sustainNote) 
 			flipY = true;
 

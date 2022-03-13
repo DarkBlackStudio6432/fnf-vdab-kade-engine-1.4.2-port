@@ -11,7 +11,7 @@ class SaveDataHandler
 {
     public static function initSave()
     {
-        if (FlxG.save.data.newInput == null)
+       /* if (FlxG.save.data.newInput == null)
 			FlxG.save.data.newInput = true;
 
 		if (FlxG.save.data.downscroll == null)
@@ -36,6 +36,6 @@ class SaveDataHandler
 			FlxG.save.data.lastversion = "pre-beta2";
 		
 		if (FlxG.save.data.newInput == null && FlxG.save.data.lastversion == null)
-			FlxG.save.data.lastversion = "beta2";
+			FlxG.save.data.lastversion = "beta2";*/
     }
 }
