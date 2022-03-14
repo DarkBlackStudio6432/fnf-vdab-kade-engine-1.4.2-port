@@ -224,6 +224,7 @@ class PlayState extends MusicBeatState
 	public var splitathonExpressionAdded:Bool = false;
 
 	var notestuffs:Array<String> = ['LEFT', 'DOWN', 'UP', 'RIGHT'];
+
 	var fc:Bool = true;
 
 	var bgGirls:BackgroundGirls;
@@ -577,21 +578,6 @@ class PlayState extends MusicBeatState
 		{
 			case 'tutorial':
 				dialogue = ["Hey, you're pretty cute.", 'Use the arrow keys to keep up \nwith me singing.'];
-			case 'bopeebo':
-				dialogue = [
-					'HEY!',
-					"You think you can just sing\nwith my daughter like that?",
-					"If you want to date her...",
-					"You're going to have to go \nthrough ME first!"
-				];
-			case 'fresh':
-				dialogue = ["Not too shabby boy.", ""];
-			case 'dadbattle':
-				dialogue = [
-					"gah you think you're hot stuff?",
-					"If you can beat me here...",
-					"Only then I will even CONSIDER letting you\ndate my daughter!"
-				];
 			case 'senpai':
 				dialogue = CoolUtil.coolTextFile(Paths.txt('senpai/senpaiDialogue'));
 			case 'roses':
@@ -1973,8 +1959,7 @@ class PlayState extends MusicBeatState
 		// Song check real quick
 		switch(curSong)
 		{
-			case 'Bopeebo' | 'Philly' | 'Blammed' | 'Cocoa' | 'Eggnog': allowedToHeadbang = true;
-			default: allowedToHeadbang = false;
+			//allowedToHeadbang = false;
 		}
 		
 		#if windows
@@ -2817,19 +2802,6 @@ class PlayState extends MusicBeatState
 			FlxG.switchState(new AnimationDebug(gf.curCharacter));
 		#end
 
-		#if debug
-		if (FlxG.keys.justPressed.EIGHT)
-		{
-			FlxG.switchState(new AnimationDebug(SONG.player2));
-			if (lua != null)
-			{
-				Lua.close(lua);
-				lua = null;
-			}
-		}
-		
-		#end
-
 		if (startingSong)
 		{
 			if (startedCountdown)
@@ -2881,7 +2853,7 @@ class PlayState extends MusicBeatState
 			// Conductor.lastSongPos = FlxG.sound.music.time;
 		}
 
-		if (generatedMusic && PlayState.SONG.notes[Std.int(curStep / 16)] != null)
+		/*if (generatedMusic && PlayState.SONG.notes[Std.int(curStep / 16)] != null)
 		{
 			// Make sure Girlfriend cheers only for certain songs
 			if(allowedToHeadbang)
@@ -3028,7 +3000,7 @@ class PlayState extends MusicBeatState
 					FlxTween.tween(FlxG.camera, {zoom: 1}, (Conductor.stepCrochet * 4 / 1000), {ease: FlxEase.elasticInOut});
 				}
 			}
-		}
+		}*/
 
 		if (camZooming)
 		{
@@ -3050,36 +3022,6 @@ class PlayState extends MusicBeatState
 					camZooming = true;
 				case 223:
 					camZooming = false;
-			}
-		}
-
-		if (curSong == 'Fresh')
-		{
-			switch (curBeat)
-			{
-				case 16:
-					camZooming = true;
-					gfSpeed = 2;
-				case 48:
-					gfSpeed = 1;
-				case 80:
-					gfSpeed = 2;
-				case 112:
-					gfSpeed = 1;
-				case 163:
-					// FlxG.sound.music.stop();
-					// FlxG.switchState(new TitleState());
-			}
-		}
-
-		if (curSong == 'Bopeebo')
-		{
-			switch (curBeat)
-			{
-				case 128, 129, 130:
-					vocals.volume = 0;
-					// FlxG.sound.music.stop();
-					// FlxG.switchState(new PlayState());
 			}
 		}
 
@@ -3210,6 +3152,10 @@ class PlayState extends MusicBeatState
 							FlxG.sound.play(Paths.sound('note_click'));
 						}
 					}
+					else
+					{
+						
+					}
 	
 					if (!daNote.mustPress && daNote.wasGoodHit)
 					{
@@ -3266,7 +3212,14 @@ class PlayState extends MusicBeatState
 								spr.offset.y -= 13;
 							}
 							else
+							{
 								spr.centerOffsets();
+							}
+							spr.animation.finishCallback = function(name:String)
+							{
+								spr.animation.play('static',true);
+								spr.centerOffsets();
+							}
 						});
 
 						if (UsingNewCam)
@@ -3373,15 +3326,6 @@ class PlayState extends MusicBeatState
 					}
 				});
 		}
-
-		dadStrums.forEach(function(spr:FlxSprite)
-		{
-			if (spr.animation.finished)
-			{
-				spr.animation.play('static');
-				spr.centerOffsets();
-			}
-		});
 
 
 		if (!inCutscene)
@@ -4264,20 +4208,8 @@ class PlayState extends MusicBeatState
 	
 			playerStrums.forEach(function(spr:FlxSprite)
 			{
-					var confirmfuck:Array<Bool> = 
-					[
-						controls.LEFT_P,
-						controls.DOWN_P,
-						controls.UP_P,
-						controls.RIGHT_P
-					];
-					var staticballs:Array<Bool> = 
-					[
-						controls.LEFT_R,
-						controls.DOWN_R,
-						controls.UP_R,
-						controls.RIGHT_R
-					];
+					var confirmfuck:Array<Bool> = [controls.LEFT_P,controls.DOWN_P,controls.UP_P,controls.RIGHT_P];
+					var staticballs:Array<Bool> = [controls.LEFT_R,controls.DOWN_R,controls.UP_R,controls.RIGHT_R];
 					if (confirmfuck[spr.ID] && spr.animation.curAnim.name != 'confirm')
 						spr.animation.play('pressed');
 					if (staticballs[spr.ID])
