@@ -289,7 +289,14 @@ class FreeplayState extends MusicBeatState
 			PlayState.storyDifficulty = curDifficulty;
 
 			PlayState.storyWeek = songs[curSelected].week;
-			LoadingState.loadAndSwitchState(new CharacterSelectState());
+			if(songs[curSelected].songName.toLowerCase() == 'foolhardy')
+			{
+				LoadingState.loadAndSwitchState(new PlayState());
+			}
+			else
+			{
+				LoadingState.loadAndSwitchState(new CharacterSelectState());
+			}
 		}
 	}
 

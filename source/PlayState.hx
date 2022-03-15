@@ -683,6 +683,8 @@ class PlayState extends MusicBeatState
 		gf = new Character(400 + charoffsetx, 130 + charoffsety, gfVersion);
 		gf.scrollFactor.set(0.95, 0.95);
 
+		if (SONG.song.toLowerCase() == 'foolhardy') gf.visible = false;
+
 		if (!(formoverride == "bf" || formoverride == "none" || formoverride == "bf-pixel" || formoverride == "bf-christmas") && SONG.song != "Tutorial")
 		{
 			gf.visible = false;

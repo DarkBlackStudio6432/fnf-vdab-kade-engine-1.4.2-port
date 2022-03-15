@@ -229,6 +229,7 @@ class Note extends FlxSprite
 			alpha = 0.6;
 
 			x += width / 2;
+			x += 45;
 
 			switch (noteData)
 			{
@@ -262,9 +263,8 @@ class Note extends FlxSprite
 					case 3:
 						prevNote.animation.play('redhold');
 				}
-
-				
-				prevNote.scale.y *= Conductor.stepCrochet / 100 * 1.8 * FlxG.save.data.scrollSpeed;
+			
+				prevNote.scale.y *= Conductor.stepCrochet / 100 * 1.5 * PlayState.SONG.speed;
 				prevNote.updateHitbox();
 				// prevNote.setGraphicSize();
 			}
