@@ -476,7 +476,7 @@ class GhostTappingOption extends Option
 
 	private override function updateDisplay():String
 	{
-		return "" + (!FlxG.save.data.newInput ? "No Ghost Tapping" : "Ghost Tapping");
+		return FlxG.save.data.newInput ? "No Ghost Tapping" : "Ghost Tapping";
 	}
 }
 
@@ -491,13 +491,14 @@ class NoteSkin3DOption extends Option
 	public override function press():Bool
 	{
 		FlxG.save.data.custom3dnote = !FlxG.save.data.custom3dnote;
+		FlxG.save.data.custom3dnotetwo = !FlxG.save.data.custom3dnotetwo;
 		display = updateDisplay();
 		return true;
 	}
 
 	private override function updateDisplay():String
 	{
-		return "" + (!FlxG.save.data.custom3dnote ? "Original 3D NoteSkin" : "Golden Apple 3D NoteSkin");
+		return FlxG.save.data.custom3dnotetwo ? "Original 3D NoteSkin" : (FlxG.save.data.custom3dnote ? "Golden Apple 3D NoteSkin" : "Jamsybob 3D NoteSkin");
 	}
 }
 
@@ -518,7 +519,7 @@ class KadeInputOption extends Option
 
 	private override function updateDisplay():String
 	{
-		return "" + (!FlxG.save.data.kadeInput ? "VDAB Input" : "Kade Input");
+		return FlxG.save.data.kadeInput ? "VDAB Input" : "Kade Input";
 	}
 }
 

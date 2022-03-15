@@ -74,6 +74,8 @@ class Note extends FlxSprite
 		{
 				if (FlxG.save.data.custom3dnote)
 					frames = Paths.getSparrowAtlas('NOTE_assets_3DAlt');
+				else if (FlxG.save.data.custom3dnotetwo)
+					frames = Paths.getSparrowAtlas('NOTE_assets_3DAltTwo');
 				else
 					frames = Paths.getSparrowAtlas('NOTE_assets_3D');
 

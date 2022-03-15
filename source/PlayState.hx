@@ -794,7 +794,7 @@ class PlayState extends MusicBeatState
 					dad.x += 175;
 					dad.y += 400;
 				}
-			case 'bambi-angey' | 'kalampokiphobia':
+			case 'bambi-angey':
 				dad.y += 450;
 				dad.x += 100;
 			case 'bambi-farmer-beta':
@@ -931,7 +931,7 @@ class PlayState extends MusicBeatState
 
 		FlxG.fixedTimestep = false;
 
-		if (FlxG.save.data.songPosition) // I dont wanna talk about this code :(
+		if (FlxG.save.data.songPosition) // I wanna talk about this code :)
 			{
 				var showTimexd:Bool = true;
 				songPosBG = new FlxSprite(0, 10).loadGraphic(Paths.image('healthBar'));
@@ -2106,6 +2106,8 @@ class PlayState extends MusicBeatState
 			{
 				if (FlxG.save.data.custom3dnote)
 					babyArrow.frames = Paths.getSparrowAtlas('NOTE_assets_3DAlt');
+				else if (FlxG.save.data.custom3dnotetwo)
+					babyArrow.frames = Paths.getSparrowAtlas('NOTE_assets_3DAltTwo');
 				else
 					babyArrow.frames = Paths.getSparrowAtlas('NOTE_assets_3D');
 
@@ -3154,10 +3156,6 @@ class PlayState extends MusicBeatState
 							FlxG.sound.play(Paths.sound('note_click'));
 						}
 					}
-					else
-					{
-						
-					}
 	
 					if (!daNote.mustPress && daNote.wasGoodHit)
 					{
@@ -4072,6 +4070,8 @@ class PlayState extends MusicBeatState
 
 	private function keyShit():Void
 	{
+		var confirmfuck:Array<Bool> = [controls.LEFT_P,controls.DOWN_P,controls.UP_P,controls.RIGHT_P];
+		var staticballs:Array<Bool> = [controls.LEFT_R,controls.DOWN_R,controls.UP_R,controls.RIGHT_R];
 		// HOLDING
 		var up = controls.UP;
 		var right = controls.RIGHT;
@@ -4209,9 +4209,7 @@ class PlayState extends MusicBeatState
 			}
 	
 			playerStrums.forEach(function(spr:FlxSprite)
-			{
-					var confirmfuck:Array<Bool> = [controls.LEFT_P,controls.DOWN_P,controls.UP_P,controls.RIGHT_P];
-					var staticballs:Array<Bool> = [controls.LEFT_R,controls.DOWN_R,controls.UP_R,controls.RIGHT_R];
+			{	
 					if (confirmfuck[spr.ID] && spr.animation.curAnim.name != 'confirm')
 						spr.animation.play('pressed');
 					if (staticballs[spr.ID])
