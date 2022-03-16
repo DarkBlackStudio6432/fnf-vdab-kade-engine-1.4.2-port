@@ -119,6 +119,27 @@ class DownscrollOption extends Option
 	}
 }
 
+class MiddleScrollOption extends Option
+{
+	public function new(desc:String)
+	{
+		super();
+		description = desc;
+	}
+
+	public override function press():Bool
+	{
+		FlxG.save.data.middlescroll = !FlxG.save.data.middlescroll;
+		display = updateDisplay();
+		return true;
+	}
+
+	private override function updateDisplay():String
+	{
+		return FlxG.save.data.middlescroll ? "Middlescroll On" : "Middlescroll Off";
+	}
+}
+
 class AccuracyOption extends Option
 {
 	public function new(desc:String)
@@ -489,7 +510,18 @@ class NoteSkin3DOption extends Option
 	}
 
 	public override function press():Bool
-	{
+	{ 
+	    if (FlxG.save.data.custom3dnoteStyle == null)
+		{
+			FlxG.save.data.custom3dnoteStyle = 0;
+		}
+
+	    FlxG.save.data.custom3dnoteStyle += 1;
+		
+		if (FlxG.save.data.custom3dnoteStyle > 2)
+		{
+			FlxG.save.data.custom3dnoteStyle = 0;
+		}
 		FlxG.save.data.custom3dnote = !FlxG.save.data.custom3dnote;
 		FlxG.save.data.custom3dnotetwo = !FlxG.save.data.custom3dnotetwo;
 		display = updateDisplay();
@@ -498,7 +530,8 @@ class NoteSkin3DOption extends Option
 
 	private override function updateDisplay():String
 	{
-		return FlxG.save.data.custom3dnotetwo ? "Original 3D NoteSkin" : (FlxG.save.data.custom3dnote ? "Golden Apple 3D NoteSkin" : "Jamsybob 3D NoteSkin");
+		//return FlxG.save.data.custom3dnotetwo ? "Original 3D NoteSkin" : (FlxG.save.data.custom3dnote ? "Golden Apple 3D NoteSkin" : "Jamsybob 3D NoteSkin");
+		return FlxG.save.data.custom3dnoteStyle == 0 ? "Original 3D NoteSkin" : (FlxG.save.data.custom3dnoteStyle == 1 ? "Golden Apple 3D NoteSkin" : "Jamsybob 3D NoteSkin");
 	}
 }
 

@@ -32,6 +32,7 @@ class Alphabet extends FlxSpriteGroup
 
 	var groupX:Float = 90;
 	var groupY:Float = 0.48;
+	public var textSize:Float = 1.0;
 
 	public var SwitchXandY:Bool = false;
 
@@ -87,6 +88,7 @@ class Alphabet extends FlxSpriteGroup
 			}
 
 			var isNumber:Bool = AlphaCharacter.numbers.indexOf(character) != -1;
+			var isSymbol:Bool = AlphaCharacter.symbols.indexOf(character) != -1;
 			var isAlphabet:Bool = AlphaCharacter.alphabet.indexOf(character.toLowerCase()) != -1;
 
 			if (AlphaCharacter.alphabet.indexOf(character.toLowerCase()) != -1 || isNumber || isAlphabet)
@@ -112,6 +114,10 @@ class Alphabet extends FlxSpriteGroup
 					{
 						letter.createBoldNumber(character);
 					}
+					else if (isSymbol)
+					{
+						letter.createBoldSymbol(character);
+					}
 					else
 					{
 						letter.createBold(character);
@@ -122,6 +128,10 @@ class Alphabet extends FlxSpriteGroup
 					if (isNumber)
 					{
 						letter.createNumber(character);
+					}
+					else if (isSymbol)
+					{
+						letter.createSymbol(character);
 					}
 					else
 					{
@@ -212,6 +222,10 @@ class Alphabet extends FlxSpriteGroup
 					if (isNumber)
 					{
 						letter.createBoldNumber(splitWords[loopNum]);
+					}
+					else if (isSymbol)
+					{
+						letter.createBoldSymbol(splitWords[loopNum]);
 					}
 					else
 					{
@@ -338,6 +352,49 @@ class AlphaCharacter extends FlxSprite
 
 		y = (110 - height);
 		y += row * 60;
+	}
+
+	public function createBoldSymbol(letter:String)
+	{
+		switch (letter)
+		{
+			case '.':
+				animation.addByPrefix(letter, 'PERIOD bold', 24);
+			case "'":
+				animation.addByPrefix(letter, 'APOSTRAPHIE bold', 24);
+			case "?":
+				animation.addByPrefix(letter, 'QUESTION MARK bold', 24);
+			case "!":
+				animation.addByPrefix(letter, 'EXCLAMATION POINT bold', 24);
+			case "(":
+				animation.addByPrefix(letter, 'bold (', 24);
+			case ")":
+				animation.addByPrefix(letter, 'bold )', 24);
+			default:
+				animation.addByPrefix(letter, 'bold ' + letter, 24);
+		}
+		animation.play(letter);
+		updateHitbox();
+		switch (letter)
+		{
+			case "'":
+				y -= 20 * 1;
+			/*case '-': //fuck you bitch
+				//x -= 35 - (90 * (1.0 - textSize));
+				y += 20 * textSize;*/
+			case '(':
+				x -= 65 * 1;
+				y -= 5 * 1;
+				offset.x = -58 * 1;
+			case ')':
+				x -= 20 / 1;
+				y -= 5 * 1;
+				offset.x = 12 * 1;
+			case '.':
+				y += 45 * 1;
+				x += 5 * 1;
+				offset.x += 3 * 1;
+		}
 	}
 
 	public function createNumber(letter:String,invert:Bool = false):Void

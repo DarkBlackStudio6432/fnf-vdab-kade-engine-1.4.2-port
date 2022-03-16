@@ -75,8 +75,8 @@ class KadeEngineData
 		if (FlxG.save.data.custom3dnote == null)
 			FlxG.save.data.custom3dnote = false;
 
-		if (FlxG.save.data.custom3dnotetwo == null)
-			FlxG.save.data.custom3dnotetwo = false;
+		if (FlxG.save.data.middlescroll == null)
+			FlxG.save.data.middlescroll = false;
 
 		if (FlxG.save.data.kadeInput == null)
 			FlxG.save.data.kadeInput = false;

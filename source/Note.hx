@@ -70,11 +70,11 @@ class Note extends FlxSprite
 		this.noteData = noteData;
 
 		var daStage:String = PlayState.curStage;
-		if (((CharactersWith3D.contains(PlayState.SONG.player2) && !musthit) || ((CharactersWith3D.contains(PlayState.SONG.player1) || PlayState.characteroverride == "dave-angey") && musthit)) || ((CharactersWith3D.contains(PlayState.SONG.player2) || CharactersWith3D.contains(PlayState.SONG.player1)) && ((this.strumTime / 50) % 20 > 10)))
+		if (((CharactersWith3D.contains(PlayState.SONG.player2) && !musthit) || ((CharactersWith3D.contains(PlayState.SONG.player1) || PlayState.characteroverride == "dave-angey" ||  PlayState.characteroverride == "bambi-3d" ||  PlayState.characteroverride == "bambi-unfair") && musthit)) || ((CharactersWith3D.contains(PlayState.SONG.player2) || CharactersWith3D.contains(PlayState.SONG.player1)) && ((this.strumTime / 50) % 20 > 10)))
 		{
-				if (FlxG.save.data.custom3dnote)
+				if (FlxG.save.data.custom3dnoteStyle == 1)
 					frames = Paths.getSparrowAtlas('NOTE_assets_3DAlt');
-				else if (FlxG.save.data.custom3dnotetwo)
+				else if (FlxG.save.data.custom3dnoteStyle == 2)
 					frames = Paths.getSparrowAtlas('NOTE_assets_3DAltTwo');
 				else
 					frames = Paths.getSparrowAtlas('NOTE_assets_3D');
@@ -231,7 +231,6 @@ class Note extends FlxSprite
 			alpha = 0.6;
 
 			x += width / 2;
-			x += 45;
 
 			switch (noteData)
 			{

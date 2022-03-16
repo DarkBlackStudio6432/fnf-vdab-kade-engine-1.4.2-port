@@ -59,6 +59,7 @@ class OptionsMenu extends MusicBeatState
 			new NoteClickOppoOption("Note click thing when you press a note (Opponent)"),
 			new NoteClickOption("Note click thing when you press a note (player)"),
 			new GhostTappingOption("Ghost Tapping"),
+			new MiddleScrollOption("MiddleScroll"),
 			new KadeInputOption("The Kade Input is from KE 1.2"),
 			
 		])
