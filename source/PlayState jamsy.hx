@@ -901,6 +901,9 @@ class PlayState extends MusicBeatState
 		if (FlxG.save.data.downscroll)
 			strumLine.y = FlxG.height - 165;
 
+		if (FlxG.save.data.middlescroll)
+			strumLine.x = FlxG.width - 320;
+
 		strumLineNotes = new FlxTypedGroup<FlxSprite>();
 		add(strumLineNotes);
 
@@ -1021,7 +1024,11 @@ class PlayState extends MusicBeatState
 			textYPos = healthBarBG.y + 30;
 		}
 		// Add Kade Engine watermark
-		var kadeEngineWatermark = new FlxText(4, textYPos, 0, SONG.song + " " + (curSong.toLowerCase() != 'splitathon' ? (storyDifficulty == 3 ? "Legacy" : storyDifficulty == 2 ? "Hard" : storyDifficulty == 1 ? "Normal" : "Easy") : "Finale") + " - " + engineName + "Engine (KE 1.4.2)", 16);
+		var kadeEngineWatermark = new FlxText(4, textYPos, 0,
+		SONG.song
+		+ " "
+		+ (curSong.toLowerCase() != 'splitathon' ? (storyDifficulty == 3 ? "Legacy" : storyDifficulty == 2 ? "Hard" : storyDifficulty == 1 ? "Normal" : "Easy") : "Finale")
+		+ " - " + engineName + "Engine (KE 1.4.2)", 16);
 		kadeEngineWatermark.setFormat(Paths.font("comic.ttf"), 16, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 		kadeEngineWatermark.scrollFactor.set();
 		kadeEngineWatermark.borderSize = 1.25;
@@ -1689,10 +1696,10 @@ class PlayState extends MusicBeatState
 					notes.members[id].y = y;
 				}));
 	
-				trace(Lua_helper.add_callback(lua,"setRenderedNoteAlpha", function(alpha:Float, id:Int) {
+				/*trace(Lua_helper.add_callback(lua,"setRenderedNoteAlpha", function(alpha:Float, id:Int) {
 					notes.members[id].modifiedByLua = true;
 					notes.members[id].alpha = alpha;
-				}));
+				}));*/
 	
 				trace(Lua_helper.add_callback(lua,"setRenderedNoteScale", function(scale:Float, id:Int) {
 					notes.members[id].modifiedByLua = true;
@@ -1713,9 +1720,9 @@ class PlayState extends MusicBeatState
 					getActorByName(id).x = x;
 				}));
 	
-				trace(Lua_helper.add_callback(lua,"setActorAlpha", function(alpha:Int,id:String) {
+				/*trace(Lua_helper.add_callback(lua,"setActorAlpha", function(alpha:Int,id:String) {
 					getActorByName(id).alpha = alpha;
-				}));
+				}));*/
 	
 				trace(Lua_helper.add_callback(lua,"setActorY", function(y:Int,id:String) {
 					getActorByName(id).y = y;
@@ -2202,10 +2209,6 @@ class PlayState extends MusicBeatState
 			babyArrow.animation.play('static');
 
 			babyArrow.x += 50;
-			if (FlxG.save.data.middlecroll)
-			{
-				babyArrow.x -= 320;
-			}
 
 			babyArrow.x += ((FlxG.width / 2) * player);
 
@@ -2486,19 +2489,6 @@ class PlayState extends MusicBeatState
 					if (!notesxd.mustPress)
 					{
 						notesxd.alpha = 0;
-					}
-				}
-			});	
-			playerStrums.forEach(function(spr:FlxSprite)
-			{
-				spr.x -= 320;
-				for (fuck in notes)
-				{
-					{
-						if(fuck.mustPress)
-						{
-							fuck.x -= 320;
-						}
 					}
 				}
 			});	
