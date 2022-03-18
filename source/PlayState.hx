@@ -931,7 +931,7 @@ class PlayState extends MusicBeatState
 
 		FlxG.fixedTimestep = false;
 
-		if (FlxG.save.data.songPosition) // I wanna talk about this code :)
+		/*if (FlxG.save.data.songPosition) // I wanna talk about this code :)
 			{
 				var showTimexd:Bool = true;
 				songPosBG = new FlxSprite(0, 10).loadGraphic(Paths.image('healthBar'));
@@ -949,7 +949,7 @@ class PlayState extends MusicBeatState
 				songPosBar.createFilledBar(FlxColor.GRAY, FlxColor.WHITE);
 				songPosBar.alpha = 0;
 				songPosBar.visible = showTimexdt;
-			}
+			}*/
 
 		healthBarBG = new FlxSprite(0, FlxG.height * 0.9).loadGraphic(Paths.image('healthBar'));
 		if (FlxG.save.data.downscroll)
@@ -965,8 +965,8 @@ class PlayState extends MusicBeatState
 		// healthBar
 		add(healthBar);
 
-		if (FlxG.save.data.songPosition) // I wanna talk about this code :)
-			{
+		/*if (FlxG.save.data.songPosition) // I wanna talk about this code :)
+			{*/
 		var showTime:Bool = true;
 		timeTxt = new FlxText(STRUM_X + (FlxG.width / 2) - 248, 55, 400, "", 32);
 		timeTxt.setFormat("Comic Sans MS Bold", 16, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
@@ -977,8 +977,8 @@ class PlayState extends MusicBeatState
 		if(FlxG.save.data.downscroll) timeTxt.y = FlxG.height - 44;
 
 		add(timeTxt);
-		timeTxt.cameras = [camHUD];
-			}
+		
+			//}
 
 		var credits:String;
 		switch (SONG.song.toLowerCase())
@@ -1069,11 +1069,10 @@ class PlayState extends MusicBeatState
 		iconP2.cameras = [camHUD];
 		scoreTxt.cameras = [camHUD];
 		doof.cameras = [camHUD];
-		if (FlxG.save.data.songPosition)
+		/*if (FlxG.save.data.songPosition)
 		{
-			songPosBG.cameras = [camHUD];
-			songPosBar.cameras = [camHUD];
-		}
+			timeTxt.cameras = [camHUD];
+		}*/
 		kadeEngineWatermark.cameras = [camHUD];
 		doof.cameras = [camDialogue];
 
@@ -1450,87 +1449,6 @@ class PlayState extends MusicBeatState
 		var black:FlxSprite = new FlxSprite(-100, -100).makeGraphic(FlxG.width * 2, FlxG.height * 2, FlxColor.BLACK);
 		black.scrollFactor.set();
 		add(black);
-
-		var red:FlxSprite = new FlxSprite(-100, -100).makeGraphic(FlxG.width * 2, FlxG.height * 2, 0xFFff1b31);
-		red.scrollFactor.set();
-
-		var senpaiEvil:FlxSprite = new FlxSprite();
-		senpaiEvil.frames = Paths.getSparrowAtlas('weeb/senpaiCrazy', 'week6');
-		senpaiEvil.animation.addByPrefix('idle', 'Senpai Pre Explosion', 24, false);
-		senpaiEvil.setGraphicSize(Std.int(senpaiEvil.width * 6));
-		senpaiEvil.scrollFactor.set();
-		senpaiEvil.updateHitbox();
-		senpaiEvil.screenCenter();
-
-		if (SONG.song.toLowerCase() == 'roses' || SONG.song.toLowerCase() == 'thorns')
-		{
-			remove(black);
-
-			if (SONG.song.toLowerCase() == 'thorns')
-			{
-				add(red);
-			}
-		}
-
-		if (SONG.song.toLowerCase() == 'senpai' || SONG.song.toLowerCase() == 'roses' || SONG.song.toLowerCase() == 'thorns')
-		{
-			new FlxTimer().start(0.3, function(tmr:FlxTimer)
-			{
-				black.alpha -= 0.15;
-
-				if (black.alpha > 0)
-				{
-					tmr.reset(0.3);
-				}
-				else
-				{
-					if (dialogueBox != null)
-					{
-						inCutscene = true;
-
-						if (SONG.song.toLowerCase() == 'thorns')
-						{
-							add(senpaiEvil);
-							senpaiEvil.alpha = 0;
-							new FlxTimer().start(0.3, function(swagTimer:FlxTimer)
-							{
-								senpaiEvil.alpha += 0.15;
-								if (senpaiEvil.alpha < 1)
-								{
-									swagTimer.reset();
-								}
-								else
-								{
-									senpaiEvil.animation.play('idle');
-									FlxG.sound.play(Paths.sound('Senpai_Dies'), 1, false, null, true, function()
-									{
-										remove(senpaiEvil);
-										remove(red);
-										FlxG.camera.fade(FlxColor.WHITE, 0.01, true, function()
-										{
-											add(dialogueBox);
-										}, true);
-									});
-									new FlxTimer().start(3.2, function(deadTime:FlxTimer)
-									{
-										FlxG.camera.fade(FlxColor.WHITE, 1.6, false);
-									});
-								}
-							});
-						}
-						else
-						{
-							add(dialogueBox);
-						}
-					}
-					else
-					{
-						startCountdown();
-					}
-					remove(black);
-				}
-			});
-		}
 
 		var stupidBasics:Float = 1;
 		if (isStart)
@@ -1950,8 +1868,7 @@ class PlayState extends MusicBeatState
 		// Song duration in a float, useful for the time left feature
 		songLength = FlxG.sound.music.length;
 
-		FlxTween.tween(songPosBG, {alpha: 1}, 0.5, {ease: FlxEase.circOut});
-		FlxTween.tween(songPosBar, {alpha: 1}, 0.5, {ease: FlxEase.circOut});
+		//if (FlxG.save.data.songPosition) //farty fart fart thing to fucking idk how to explain xdd
 		FlxTween.tween(timeTxt, {alpha: 1}, 0.5, {ease: FlxEase.circOut});
 		
 		// Song check real quick
@@ -2856,103 +2773,9 @@ class PlayState extends MusicBeatState
 			// Conductor.lastSongPos = FlxG.sound.music.time;
 		}
 
-		/*if (generatedMusic && PlayState.SONG.notes[Std.int(curStep / 16)] != null)
+		if (generatedMusic && PlayState.SONG.notes[Std.int(curStep / 16)] != null)
 		{
 			// Make sure Girlfriend cheers only for certain songs
-			if(allowedToHeadbang)
-			{
-				// Don't animate GF if something else is already animating her (eg. train passing)
-				if(gf.animation.curAnim.name == 'danceLeft' || gf.animation.curAnim.name == 'danceRight' || gf.animation.curAnim.name == 'idle')
-				{
-					// Per song treatment since some songs will only have the 'Hey' at certain times
-					switch(curSong)
-					{
-						case 'Philly':
-						{
-							// General duration of the song
-							if(curBeat < 250)
-							{
-								// Beats to skip or to stop GF from cheering
-								if(curBeat != 184 && curBeat != 216)
-								{
-									if(curBeat % 16 == 8)
-									{
-										// Just a garantee that it'll trigger just once
-										if(!triggeredAlready)
-										{
-											gf.playAnim('cheer');
-											triggeredAlready = true;
-										}
-									}else triggeredAlready = false;
-								}
-							}
-						}
-						case 'Bopeebo':
-						{
-							// Where it starts || where it ends
-							if(curBeat > 5 && curBeat < 130)
-							{
-								if(curBeat % 8 == 7)
-								{
-									if(!triggeredAlready)
-									{
-										gf.playAnim('cheer');
-										triggeredAlready = true;
-									}
-								}else triggeredAlready = false;
-							}
-						}
-						case 'Blammed':
-						{
-							if(curBeat > 30 && curBeat < 190)
-							{
-								if(curBeat < 90 || curBeat > 128)
-								{
-									if(curBeat % 4 == 2)
-									{
-										if(!triggeredAlready)
-										{
-											gf.playAnim('cheer');
-											triggeredAlready = true;
-										}
-									}else triggeredAlready = false;
-								}
-							}
-						}
-						case 'Cocoa':
-						{
-							if(curBeat < 170)
-							{
-								if(curBeat < 65 || curBeat > 130 && curBeat < 145)
-								{
-									if(curBeat % 16 == 15)
-									{
-										if(!triggeredAlready)
-										{
-											gf.playAnim('cheer');
-											triggeredAlready = true;
-										}
-									}else triggeredAlready = false;
-								}
-							}
-						}
-						case 'Eggnog':
-						{
-							if(curBeat > 10 && curBeat != 111 && curBeat < 220)
-							{
-								if(curBeat % 8 == 7)
-								{
-									if(!triggeredAlready)
-									{
-										gf.playAnim('cheer');
-										triggeredAlready = true;
-									}
-								}else triggeredAlready = false;
-							}
-						}
-					}
-				}
-			}
 			
 			if (camFollow.x != dad.getMidpoint().x + 150 && !PlayState.SONG.notes[Std.int(curStep / 16)].mustHitSection)
 			{
@@ -3003,7 +2826,7 @@ class PlayState extends MusicBeatState
 					FlxTween.tween(FlxG.camera, {zoom: 1}, (Conductor.stepCrochet * 4 / 1000), {ease: FlxEase.elasticInOut});
 				}
 			}
-		}*/
+		}
 
 		if (camZooming)
 		{
@@ -3267,6 +3090,7 @@ class PlayState extends MusicBeatState
 
 					if (SONG.song.toLowerCase() == 'cheating')
 					{
+						//for sexo purposes
 						if (daNote.mustPress && !daNote.modifiedByLua)
 						{
 							daNote.visible = playerStrums.members[Math.floor(Math.abs(daNote.noteData))].visible;
@@ -4732,13 +4556,6 @@ class PlayState extends MusicBeatState
 
 		// FlxG.log.add('change bpm' + SONG.notes[Std.int(curStep / 16)].changeBPM);
 		wiggleShit.update(Conductor.crochet);
-
-		// HARDCODING FOR MILF ZOOMS!
-		if (curSong.toLowerCase() == 'milf' && curBeat >= 168 && curBeat < 200 && camZooming && FlxG.camera.zoom < 1.35)
-		{
-			FlxG.camera.zoom += 0.015;
-			camHUD.zoom += 0.03;
-		}
 
 		if (camZooming && FlxG.camera.zoom < 1.35 && curBeat % 4 == 0)
 		{

@@ -160,26 +160,6 @@ class AccuracyOption extends Option
 	}
 }
 
-class SongPositionOption extends Option
-{
-	public function new(desc:String)
-	{
-		super();
-		description = desc;
-	}
-	public override function press():Bool
-	{
-		FlxG.save.data.songPosition = !FlxG.save.data.songPosition;
-		display = updateDisplay();
-		return true;
-	}
-
-	private override function updateDisplay():String
-	{
-		return "Song Position " + (!FlxG.save.data.songPosition ? "off" : "on");
-	}
-}
-
 class Judgement extends Option
 {
 	

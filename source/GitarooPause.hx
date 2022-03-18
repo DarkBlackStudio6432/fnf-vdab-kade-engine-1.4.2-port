@@ -1,16 +1,28 @@
 package;
 
+import Controls.Control;
 import flixel.FlxG;
 import flixel.FlxSprite;
+import flixel.FlxSubState;
+import flixel.addons.transition.FlxTransitionableState;
+import flixel.group.FlxGroup.FlxTypedGroup;
+import flixel.input.keyboard.FlxKey;
+import flixel.system.FlxSound;
+import flixel.text.FlxText;
+import flixel.tweens.FlxEase;
+import flixel.tweens.FlxTween;
+import flixel.util.FlxColor;
 import flixel.graphics.frames.FlxAtlasFrames;
 
 class GitarooPause extends MusicBeatState
 {
+	var resumeButton:FlxSprite;
 	var replayButton:FlxSprite;
 	var cancelButton:FlxSprite;
 
 	var suckMyBambis:Array<String> = ['bambi', 'bambi-new', 'bambi-splitathon', 'bambi-angey', 'bambi-old', 'bambi-bevel', 'bambi-farmer-beta', 'bambi-3d', 'bambi-unfair'];
 
+	var resumeSelect:Bool = false;
 	var replaySelect:Bool = false;
 
 	public function new():Void
@@ -36,6 +48,14 @@ class GitarooPause extends MusicBeatState
 		add(bf);
 		bf.screenCenter(X);
 		bf.antialiasing = true;
+
+		resumeButton = new FlxSprite(FlxG.width * 0.109, FlxG.height * 0.3);
+		resumeButton.frames = Paths.getSparrowAtlas('pauseAlt/pauseUI');
+		resumeButton.animation.addByPrefix('selected', 'bluereplay', 0, false);
+		resumeButton.animation.appendByPrefix('selected', 'yellowreplay');
+		resumeButton.animation.play('selected');
+		add(resumeButton);
+		resumeButton.antialiasing = true;
 
 		replayButton = new FlxSprite(FlxG.width * 0.28, FlxG.height * 0.7);
 		replayButton.frames = Paths.getSparrowAtlas('pauseAlt/pauseUI');
@@ -65,6 +85,8 @@ class GitarooPause extends MusicBeatState
 
 		if (controls.ACCEPT)
 		{
+			if (resumeSelect)
+				//FlxG.switchState(new PauseSubstate());
 			if (replaySelect)
 			{
 				FlxG.switchState(new PlayState());
@@ -82,15 +104,23 @@ class GitarooPause extends MusicBeatState
 	{
 		replaySelect = !replaySelect;
 
-		if (replaySelect)
+		if (resumeSelect)
+		{
+			cancelButton.animation.curAnim.curFrame = 0;
+			replayButton.animation.curAnim.curFrame = 0;
+			resumeButton.animation.curAnim.curFrame = 1;
+		}
+		else if (replaySelect)
 		{
 			cancelButton.animation.curAnim.curFrame = 0;
 			replayButton.animation.curAnim.curFrame = 1;
+			resumeButton.animation.curAnim.curFrame = 0;
 		}
 		else
 		{
 			cancelButton.animation.curAnim.curFrame = 1;
 			replayButton.animation.curAnim.curFrame = 0;
+			resumeButton.animation.curAnim.curFrame = 0;
 		}
 	}
 }
