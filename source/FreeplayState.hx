@@ -108,8 +108,11 @@ class FreeplayState extends MusicBeatState
 					addWeek(['Cheating'], 2, ['bambi-3d']);
 				if(FlxG.save.data.unfairnessFound)
 					addWeek(['Unfairness'], 2, ['bambi-unfair']);
+				if(FlxG.save.data.disruptionFound)
+					addWeek(['Disruption'], 2, ['bambi-piss-3d']);
 			case 'extra':
 				addWeek(['Mealie', 'Very-Screwed'], 2, ['bambi-loser', 'bambi-angey']);
+				addWeek(['Applecore'], 2, ['bandu']);
 				addWeek(['Foolhardy'], 1, ['dave']);
 				addWeek(['Furiosity', 'Old-House', 'Old-Insanity'], 1, ['dave-angey', 'dave-old', 'dave-old']);
 				addWeek(['Old-Blocked', 'Old-Corn-Theft', 'Old-Maze', 'Beta-Maze'], 2, ['bambi-farmer-beta', 'bambi-farmer-beta', 'bambi-farmer-beta', 'bambi-farmer-beta']);

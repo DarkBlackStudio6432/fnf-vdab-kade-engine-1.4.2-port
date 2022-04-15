@@ -292,6 +292,66 @@ class Character extends FlxSprite
 				antialiasing = false;
 		
 				playAnim('idle');
+			case 'bambi-piss-3d':
+				// BAMBI SHITE ANIMATION LOADING CODE
+				tex = Paths.getSparrowAtlas('dave/bambi_pissyboy');
+				frames = tex;
+				animation.addByPrefix('idle', 'DaveAngry idle dance', 24, false);
+				animation.addByPrefix('singUP', 'DaveAngry Sing Note UP', 24, false);
+				animation.addByPrefix('singRIGHT', 'DaveAngry Sing Note RIGHT', 24, false);
+				animation.addByPrefix('singDOWN', 'DaveAngry Sing Note DOWN', 24, false);
+				animation.addByPrefix('singLEFT', 'DaveAngry Sing Note LEFT', 24, false);
+		
+				addOffset('idle');
+				addOffset("singUP", 20, -10);
+				addOffset("singRIGHT", 80, -20);
+				addOffset("singLEFT", 0, -10);
+				addOffset("singDOWN", 0, 10);
+				globaloffset[0] = 150;
+				globaloffset[1] = 450; //this is the y
+				setGraphicSize(Std.int(width / furiosityScale));
+				updateHitbox();
+				antialiasing = false;
+		
+				playAnim('idle');
+			case 'bandu':
+				frames = Paths.getSparrowAtlas('bambi/bandu');
+				
+				animation.addByPrefix('idle', 'idle', 24, true);
+				animation.addByPrefix('singUP', 'up', 24, false);
+				animation.addByPrefix('singRIGHT', 'right', 24, false);
+				animation.addByPrefix('singDOWN', 'down', 24, false);
+				animation.addByPrefix('singLEFT', 'left', 24, false);
+				
+				animation.addByIndices('idle-alt', 'phones fall', [17], '', 24, false);
+				animation.addByPrefix('singUP-alt', 'sad up', 24, false);
+				animation.addByPrefix('singRIGHT-alt', 'sad right', 24, false);
+				animation.addByPrefix('singDOWN-alt', 'sad down', 24, false);
+				animation.addByPrefix('singLEFT-alt', 'sad left', 24, false);
+
+				animation.addByIndices('NOOMYPHONES', 'phones fall', [0, 2, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 17], '', 24, false);
+				
+				addOffset('idle');
+				addOffset("singUP", 0, 80);
+				addOffset("singRIGHT", 140, -80);
+				addOffset("singLEFT", 200);
+				addOffset("singDOWN", 0, -30);
+				
+				addOffset('NOOMYPHONES');
+
+				addOffset('idle-alt');
+				addOffset("singUP-alt", 0, 100);
+				addOffset("singRIGHT-alt", 30);
+				addOffset("singLEFT-alt", -20, -38);
+				addOffset("singDOWN-alt");
+
+				globaloffset[0] = 150;
+				globaloffset[1] = 450;
+
+				setGraphicSize(Std.int(width / furiosityScale));
+				updateHitbox();
+
+				playAnim('idle');
 			case 'bambi-unfair':
 				// BAMBI SHITE ANIMATION LOADING CODE
 				tex = Paths.getSparrowAtlas('bambi/unfair_bambi');
@@ -307,6 +367,28 @@ class Character extends FlxSprite
 				addOffset("singRIGHT", -180, -60);
 				addOffset("singLEFT", 250, 0);
 				addOffset("singDOWN", 150, 50);
+				globaloffset[0] = 150 * 1.3;
+				globaloffset[1] = 450 * 1.3; //this is the y
+				setGraphicSize(Std.int((width * 1.3) / furiosityScale));
+				updateHitbox();
+				antialiasing = false;
+		
+				playAnim('idle');
+			case 'unfair-junker':
+				frames = Paths.getSparrowAtlas('bambi/UNFAIR_GUY_FAICNG_FORWARD');
+				animation.addByPrefix('idle', 'idle', 24, false);
+				animation.addByIndices('singUP', 'up', [0, 1, 1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2], '', 24, false);
+				animation.addByIndices('singRIGHT', 'right', [0, 1, 1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2], '', 24, false);
+				animation.addByIndices('singDOWN', 'down', [0, 1, 1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2], '', 24, false);
+				animation.addByIndices('singLEFT', 'left', [0, 1, 1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2], '', 24, false);
+				animation.addByIndices('inhale', 'INHALE', [0, 1, 2, 0, 1, 2, 0, 1, 2, 0, 1, 2, 0, 1, 2, 0, 1, 2, 0, 1, 2, 0, 1, 2, 1, 2, 1, 2, 1, 0, 0], '', 24, false);
+
+				addOffset('idle');
+				addOffset("singUP");
+				addOffset("singRIGHT");
+				addOffset("singLEFT");
+				addOffset("singDOWN");
+				addOffset('inhale');
 				globaloffset[0] = 150 * 1.3;
 				globaloffset[1] = 450 * 1.3; //this is the y
 				setGraphicSize(Std.int((width * 1.3) / furiosityScale));
@@ -1069,6 +1151,8 @@ class Character extends FlxSprite
 		}
 	}
 
+	public var POOP:Bool = false; // https://cdn.discordapp.com/attachments/902006463654936587/906412566534848542/video0-14.mov
+
 	override function update(elapsed:Float)
 	{
 		if (animation == null)
@@ -1094,7 +1178,7 @@ class Character extends FlxSprite
 				dadVar = 6.1;
 			if (holdTimer >= Conductor.stepCrochet * dadVar * 0.001)
 			{
-				dance();
+				dance(POOP);
 				holdTimer = 0;
 			}
 		}
@@ -1114,10 +1198,11 @@ class Character extends FlxSprite
 	/**
 	 * FOR DANCING SHIT
 	 */
-	public function dance()
+	public function dance(alt:Bool = false)
 	{
 		if (!debugMode && canDance)
 		{
+			var poopInPants:String = alt ? '-alt' : '';
 			switch (curCharacter)
 			{
 				case 'gf' | 'gf-christmas' | 'gf-pixel':
@@ -1126,12 +1211,12 @@ class Character extends FlxSprite
 						danced = !danced;
 
 						if (danced)
-							playAnim('danceRight', true);
+							playAnim('danceRight' + poopInPants, true);
 						else
-							playAnim('danceLeft', true);
+							playAnim('danceLeft' + poopInPants, true);
 					}
 				default:
-					playAnim('idle', true);
+					playAnim('idle' + poopInPants, true);
 			}
 		}
 	}

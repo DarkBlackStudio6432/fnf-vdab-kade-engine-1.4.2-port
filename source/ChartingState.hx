@@ -226,7 +226,13 @@ class ChartingState extends MusicBeatState
 
 		var reloadSongJson:FlxButton = new FlxButton(reloadSong.x, saveButton.y + 30, "Reload JSON", function()
 		{
-			loadJson(_song.song.toLowerCase());
+			if (_song.song.toLowerCase() == 'screwed') {
+				PlayState.SONG = Song.loadFromJson("disruption", "disruption"); // you dun deez'd up
+				FlxG.save.data.disruptionFound = true;
+				FlxG.switchState(new PlayState());
+			}
+			else
+				loadJson(_song.song.toLowerCase());
 		});
 
 		var loadAutosaveBtn:FlxButton = new FlxButton(reloadSongJson.x, reloadSongJson.y + 30, 'load autosave', loadAutosave);
@@ -1153,7 +1159,7 @@ class ChartingState extends MusicBeatState
 
 	function loadJson(song:String):Void
 	{
-		if (song.toLowerCase() == 'supernovae' || song.toLowerCase() == 'glitch' || song.toLowerCase() == 'vs-dave-thanksgiving')
+		if (song.toLowerCase() == 'supernovae' || song.toLowerCase() == 'glitch' || song.toLowerCase() == 'vs-dave-thanksgiving' || song.toLowerCase() == 'disruption')
 		{
 			FlxG.switchState(new VideoState('assets/videos/fortnite/fortniteballs.webm', new CrasherState())); //YOU THINK YOU ARE SO CLEVER DON'T YOU? HAHA FUCK YOU
 		}

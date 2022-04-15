@@ -45,11 +45,11 @@ class Note extends FlxSprite
 
 	private var InPlayState:Bool = false;
 
-	private var CharactersWith3D:Array<String> = ["dave-angey", "bambi-3d", 'dave-annoyed-3d', 'dave-3d-standing-bruh-what', 'bambi-unfair'];
+	private var CharactersWith3D:Array<String> = ["dave-angey", "bambi-3d", 'dave-annoyed-3d', 'dave-3d-standing-bruh-what', 'bambi-unfair', 'bambi-piss-3d', 'bandu'];
 
 	public var rating:String = "shit";
 
-	public function new(strumTime:Float, noteData:Int, ?prevNote:Note, ?sustainNote:Bool = false, ?musthit:Bool = true)
+	public function new(strumTime:Float, noteData:Int, ?prevNote:Note, ?sustainNote:Bool = false, ?musthit:Bool = true, ?getoutofyourfuckingtoomanyargumentsherebitch:Bool = true)
 	{
 		super();
 
@@ -70,7 +70,7 @@ class Note extends FlxSprite
 		this.noteData = noteData;
 
 		var daStage:String = PlayState.curStage;
-		if (((CharactersWith3D.contains(PlayState.SONG.player2) && !musthit) || ((CharactersWith3D.contains(PlayState.SONG.player1) || PlayState.characteroverride == "dave-angey" ||  PlayState.characteroverride == "bambi-3d" ||  PlayState.characteroverride == "bambi-unfair") && musthit)) || ((CharactersWith3D.contains(PlayState.SONG.player2) || CharactersWith3D.contains(PlayState.SONG.player1)) && ((this.strumTime / 50) % 20 > 10)))
+		if (((CharactersWith3D.contains(PlayState.SONG.player2) && !musthit) || ((CharactersWith3D.contains(PlayState.SONG.player1) || PlayState.characteroverride == "dave-angey" ||  PlayState.characteroverride == "bambi-3d") && musthit)) || ((CharactersWith3D.contains(PlayState.SONG.player2) || CharactersWith3D.contains(PlayState.SONG.player1)) && ((this.strumTime / 50) % 20 > 10)))
 		{
 				if (FlxG.save.data.custom3dnoteStyle == 1)
 					frames = Paths.getSparrowAtlas('NOTE_assets_3DAlt');
@@ -174,7 +174,7 @@ class Note extends FlxSprite
 		}
 		switch (PlayState.SONG.song.toLowerCase())
 		{
-			case 'cheating' | 'unfairness':
+			case 'cheating' | 'unfairness' | 'disruption' | 'applecore' | 'tutorial':
 				if (Type.getClassName(Type.getClass(FlxG.state)).contains("PlayState"))
 				{
 					var state:PlayState = cast(FlxG.state,PlayState);
@@ -203,7 +203,7 @@ class Note extends FlxSprite
 					}
 				}
 		}
-		if (PlayState.SONG.song.toLowerCase() == 'unfairness')
+		if (PlayState.SONG.song.toLowerCase() == 'unfairness' || PlayState.SONG.song.toLowerCase() == 'applecore')
 		{
 			var rng:FlxRandom = new FlxRandom();
 			if (rng.int(0,120) == 1)
@@ -214,6 +214,10 @@ class Note extends FlxSprite
 			{
 				LocalScrollSpeed = rng.float(1,3);
 			}
+		}
+
+		if(PlayState.SONG.song.toLowerCase() == 'unfairness'){
+			
 		}
 
 		// trace(prevNote);
@@ -272,17 +276,19 @@ class Note extends FlxSprite
 		}
 	}
 
+	public var isAlt:Bool = false;
+
 	override function update(elapsed:Float)
 	{
 		super.update(elapsed);
 
-		if (MyStrum != null)
+		if (MyStrum != null && !isAlt)
 		{
 			x = MyStrum.x + (isSustainNote ? width : 0);
 		}
 		else
 		{
-			if (InPlayState)
+			if (InPlayState && !isAlt)
 			{
 				var state:PlayState = cast(FlxG.state,PlayState);
 				if (mustPress)

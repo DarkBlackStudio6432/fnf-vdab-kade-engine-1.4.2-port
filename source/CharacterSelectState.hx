@@ -71,7 +71,7 @@ class CharacterSelectState extends MusicBeatState
 		new CharacterInSelect(['bambi', 'bambi-new', 'bambi-splitathon', 'bambi-angey', 'bambi-old', 'bambi-bevel'], [0, 0, 3, 0], ["Mr. Bambi", 'Bambi (Farmer)', 'Bambi (Splitathon)', 'Bambie', 'Bambi (Joke)', 'Bambi (Bevel)']),
 		new CharacterInSelect(['dave-angey'], [2, 2, 0.25, 0.25], ["3D Dave"]),
 		new CharacterInSelect(['tristan-golden'], [0.25, 0.25, 0.25, 2], ["Golden Tristan"]),
-		new CharacterInSelect(['bambi-3d', 'bambi-unfair'], [0, 3, 0, 0], ["3D Bambi", 'Unfair Bambi']),
+		new CharacterInSelect(['bambi-3d', 'bambi-unfair', 'bambi-piss-3d', 'unfair-junker', 'bandu'], [0, 3, 0, 0], ["3D Bambi", 'Unfair Bambi', 'Angry 3D Bambi', 'Unfair Bambi Facing Forward', 'Bandu']),
 		//currentReal order should be 0, 1 (skipped anyways), 3, 4, 2, 5, 7, 6
 	];
 	public function new() 

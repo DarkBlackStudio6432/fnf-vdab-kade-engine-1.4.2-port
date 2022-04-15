@@ -19,7 +19,10 @@ class HealthIcon extends FlxSprite
 		'spirit',
 		'bf-pixel',
 		'gf-pixel',
-		'bambi-unfair'
+		'bambi-unfair',
+		'bambi-piss-3d',
+		'bandu',
+		'the-two-dunkers'
 	];
 
 	public function new(char:String = 'bf', isPlayer:Bool = false)
@@ -54,6 +57,8 @@ class HealthIcon extends FlxSprite
 		animation.add('bambi-stupid', [18, 19], 0, false, isPlayer);
 		animation.add('bambi-3d', [20, 21], 0, false, isPlayer);
 		animation.add('bambi-unfair', [40, 41], 0, false, isPlayer);
+		animation.add('bambi-piss-3d', [42, 43], 0, false, isPlayer);
+		animation.add('bandu', [44, 45], 0, false, isPlayer);
 		animation.add('bambi-old', [18, 19], 0, false, isPlayer);
 		animation.add('bambi-angey', [24, 25], 0, false, isPlayer);
 		animation.add('bambi-bevel', [30, 31], 0, false, isPlayer);
@@ -64,6 +69,7 @@ class HealthIcon extends FlxSprite
 
 		animation.add('the-duo', [16, 17], 0, false, isPlayer);
 		animation.add('what-lmao', [18, 19], 0, false, isPlayer);
+		animation.add('the-two-dunkers', [46, 47], 0, false, isPlayer);
 
 		animation.add('spooky', [42, 43], 0, false, isPlayer);
 		animation.add('pico', [44, 45], 0, false, isPlayer);
