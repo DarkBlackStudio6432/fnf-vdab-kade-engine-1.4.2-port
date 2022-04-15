@@ -965,26 +965,6 @@ class PlayState extends MusicBeatState
 
 		FlxG.fixedTimestep = false;
 
-		/*if (FlxG.save.data.songPosition) // I wanna talk about this code :)
-			{
-				var showTimexd:Bool = true;
-				songPosBG = new FlxSprite(0, 10).loadGraphic(Paths.image('healthBar'));
-				if (FlxG.save.data.downscroll)
-					songPosBG.y = FlxG.height * 0.9 + 45; 
-				songPosBG.screenCenter(X);
-				songPosBG.scrollFactor.set();
-				songPosBG.alpha = 0;
-				songPosBG.visible = showTimexd;
-				
-				var showTimexdt:Bool = true;
-				songPosBar = new FlxBar(songPosBG.x + 4, songPosBG.y + 4, LEFT_TO_RIGHT, Std.int(songPosBG.width - 8), Std.int(songPosBG.height - 8), this,
-					'songPositionBar', 0, 90000);
-				songPosBar.scrollFactor.set();
-				songPosBar.createFilledBar(FlxColor.GRAY, FlxColor.WHITE);
-				songPosBar.alpha = 0;
-				songPosBar.visible = showTimexdt;
-			}*/
-
 		healthBarBG = new FlxSprite(0, FlxG.height * 0.9).loadGraphic(Paths.image('healthBar'));
 		if (FlxG.save.data.downscroll)
 			healthBarBG.y = 50;
@@ -999,8 +979,6 @@ class PlayState extends MusicBeatState
 		// healthBar
 		add(healthBar);
 
-		/*if (FlxG.save.data.songPosition) // I wanna talk about this code :)
-			{*/
 		var showTime:Bool = true;
 		timeTxt = new FlxText(STRUM_X + (FlxG.width / 2) - 248, 55, 400, "[]", 32);
 		timeTxt.setFormat("Comic Sans MS Bold", 16, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
@@ -1011,8 +989,6 @@ class PlayState extends MusicBeatState
 		if(FlxG.save.data.downscroll) timeTxt.y = FlxG.height - 44;
 
 		add(timeTxt);
-		
-			//}
 
 		var credits:String;
 		switch (SONG.song.toLowerCase())
@@ -1106,10 +1082,7 @@ class PlayState extends MusicBeatState
 		iconP2.cameras = [camHUD];
 		scoreTxt.cameras = [camHUD];
 		doof.cameras = [camHUD];
-		/*if (FlxG.save.data.songPosition)
-		{*/
 		timeTxt.cameras = [camHUD];
-		//}
 		kadeEngineWatermark.cameras = [camHUD];
 		doof.cameras = [camDialogue];
 
@@ -2346,9 +2319,6 @@ class PlayState extends MusicBeatState
 			}
 
 			add(poopStrums);
-			/*poopStrums.forEach(function(spr:FlxSprite){
-				spr.alpha = 0;
-			});*/
 
 			add(altNotes);
 		}
@@ -2886,64 +2856,6 @@ class PlayState extends MusicBeatState
 			});
 		}
 
-		if(SONG.song.toLowerCase() == 'tutorial') //sorry for trash code but this is my first time doing this actually
-		{
-			playerStrums.forEach(function(spr:FlxSprite)
-			{	
-				spr.x += (Math.sin(elapsedtime) * 0.3);
-				//spr.scale.x -= (Math.sin(elapsedtime) * 0.0005) / 6 - (Math.sin(elapsedtime) * 0.0005);
-				spr.scale.y += (Math.sin(elapsedtime) * 0.007) / 3;
-				//spr.scale.x += Math.sin(elapsedtime) * 0.0007;	
-				spr.scale.x = Math.abs(Math.sin(elapsedtime - 5) * ((spr.ID % 2) == 0 ? 1 : -1)) / 4;
-				spr.scale.x += 0.3;
-				spr.scale.x *= 1.7;
-				spr.y = ((FlxG.height / 2) - (spr.height / 2)) + (Math.cos(elapsedtime + (spr.ID)) * 150);
-				if (spr.ID == 0 || spr.ID == 2) spr.angle += (Math.sin(elapsedtime) * 1.5);
-				if (spr.ID == 1 || spr.ID == 3) spr.y -= (Math.sin(elapsedtime / 2) * 0.5);
-			});
-			dadStrums.forEach(function(spr:FlxSprite){
-				spr.x += (Math.sin(elapsedtime) * 0.3);
-				//spr.scale.x -= (Math.sin(elapsedtime) * 0.0005) / 6 - (Math.sin(elapsedtime) * 0.0005);
-				spr.scale.y += (Math.sin(elapsedtime) * 0.007) / 3;
-				//spr.scale.x += Math.sin(elapsedtime) * 0.0007;
-				spr.scale.x = Math.abs(Math.sin(elapsedtime - 5) * ((spr.ID % 2) == 0 ? 1 : -1)) / 4;
-				spr.scale.x += 0.3;
-				spr.scale.x *= 1.7;
-				spr.y = ((FlxG.height / 2) - (spr.height / 2)) + (Math.cos(elapsedtime + (spr.ID)) * 150);
-				if (spr.ID == 0 || spr.ID == 2) spr.angle += (Math.sin(elapsedtime) * 1.5);
-				if (spr.ID == 1 || spr.ID == 3) spr.y -= (Math.sin(elapsedtime / 2) * 0.5);
-				notes.forEachAlive(function(spr:Note){
-					if (!spr.isSustainNote && spr.mustPress){
-						spr.scale.set(playerStrums.members[spr.noteData].scale.x, playerStrums.members[spr.noteData].scale.y);
-					}
-					else{
-						spr.scale.set(dadStrums.members[spr.noteData].scale.x, dadStrums.members[spr.noteData].scale.y);
-					}
-					if(spr.mustPress){
-						//spr.scale.x -= (Math.sin(elapsedtime) * 0.0005) / 6 - (Math.sin(elapsedtime) * 0.0005);
-						spr.scale.y += (Math.sin(elapsedtime) * 0.007) / 3;
-						//spr.scale.x += Math.sin(elapsedtime) * 0.0007;
-						spr.scale.x = Math.abs(Math.sin(elapsedtime - 5) * ((spr.ID % 2) == 0 ? 1 : -1)) / 4;
-						spr.scale.x += 0.3;
-						spr.scale.x *= 1.7;
-						if (spr.ID == 0 || spr.ID == 2) spr.angle += (Math.sin(elapsedtime) * 1.5);
-					}
-					else{
-						//spr.scale.x -= (Math.sin(elapsedtime) * 0.0005) / 6 - (Math.sin(elapsedtime) * 0.0005);
-						spr.scale.y += (Math.sin(elapsedtime) * 0.007) / 3;
-						//spr.scale.x += Math.sin(elapsedtime) * 0.0007;
-						spr.scale.x = Math.abs(Math.sin(elapsedtime - 5) * ((spr.ID % 2) == 0 ? 1 : -1)) / 4;
-						spr.scale.x += 0.3;
-						spr.scale.x *= 1.7;
-						if (spr.ID == 0 || spr.ID == 2) spr.angle += (Math.sin(elapsedtime) * 1.5);
-					}
-				});
-			});		
-		}
-
-		/*spr.scale.x += (Math.sin(elapsedtime - 2.5) * ((spr.ID % 2) ==  0.005 ? 1 : -1) / 2);
-		spr.scale.y += (Math.sin(elapsedtime - 3) * ((spr.ID % 2) ==  0.005 ? 1 : -1) / 1);*/
-
 		if (SONG.song.toLowerCase() == 'unfairness') // fuck you
 		{
 			playerStrums.forEach(function(spr:FlxSprite)
@@ -2958,31 +2870,6 @@ class PlayState extends MusicBeatState
 			});
 		}
 
-		if(FlxG.save.data.middlescroll)
-		{
-			dadStrums.forEach(function(spr:FlxSprite)
-			{
-				spr.alpha = 0;
-				for (notesxd in notes)
-					{
-					if (!notesxd.mustPress)
-					{
-						notesxd.alpha = 0;
-					}
-				}
-			});	
-			playerStrums.forEach(function(spr:FlxSprite)
-			{
-				spr.x -= 320;
-				for (fuck in notes)
-				{
-						if(fuck.mustPress)
-						{
-							fuck.x -= 320;
-						}
-				}
-			});	
-		}
 		#if !debug
 		perfectMode = false;
 		#end
@@ -3733,50 +3620,8 @@ class PlayState extends MusicBeatState
 					notes.remove(daNote, true);
 					daNote.destroy();
 				}
-				/*if (SONG.song.toLowerCase() == 'applecore')
-					{
-						if (unfairPart)
-						{
-							daNote.y = ((daNote.mustPress ? noteJunksPlayer[daNote.noteData] : noteJunksDad[daNote.noteData])- (Conductor.songPosition - daNote.strumTime) * (-0.45 * FlxMath.roundDecimal(1 * daNote.LocalScrollSpeed, 2))); // couldnt figure out this stupid mystrum thing
-						}
-						else
-						{
-							if (FlxG.save.data.downscroll)
-								daNote.y = (strumLine.y - (Conductor.songPosition - daNote.strumTime) * (-0.45 * FlxMath.roundDecimal(SONG.speed * 1, 2)));
-							else
-								daNote.y = (strumLine.y - (Conductor.songPosition - daNote.strumTime) * (0.45 * FlxMath.roundDecimal(SONG.speed * 1, 2)));
-						}
-					}
-				else if (SONG.song.toLowerCase() == 'tutorial' && (daNote.MyStrum != null))
-					{
-						if (FlxG.save.data.downscroll)
-							daNote.y = (daNote.MyStrum.y - (Conductor.songPosition - daNote.strumTime) * (-0.45 * FlxMath.roundDecimal(FlxG.save.data.scrollSpeed == 1 ? SONG.speed : FlxG.save.data.scrollSpeed, 2)));
-						else
-							daNote.y = (daNote.MyStrum.y - (Conductor.songPosition - daNote.strumTime) * (0.45 * FlxMath.roundDecimal(FlxG.save.data.scrollSpeed == 1 ? SONG.speed : FlxG.save.data.scrollSpeed, 2)));
-					}
-				else if (SONG.song.toLowerCase() == 'disruption' && (daNote.MyStrum != null))
-					{
-						if (FlxG.save.data.downscroll)
-							daNote.y = (daNote.MyStrum.y - (Conductor.songPosition - daNote.strumTime) * (-0.45 * FlxMath.roundDecimal(FlxG.save.data.scrollSpeed == 1 ? SONG.speed : FlxG.save.data.scrollSpeed, 2)));
-						else
-							daNote.y = (daNote.MyStrum.y - (Conductor.songPosition - daNote.strumTime) * (0.45 * FlxMath.roundDecimal(FlxG.save.data.scrollSpeed == 1 ? SONG.speed : FlxG.save.data.scrollSpeed, 2)));
-					}
-				else if (SONG.song.toLowerCase() == 'unfairness' && (daNote.MyStrum != null)) //ok so, this is the old code of unfairness, the old code doesn't have upscroll broken
-					{
-						if (FlxG.save.data.downscroll)
-							daNote.y = (daNote.MyStrum.y - (Conductor.songPosition - daNote.strumTime) * (-0.45 * FlxMath.roundDecimal(SONG.speed * daNote.LocalScrollSpeed, 2)));
-						else
-							daNote.y = (daNote.MyStrum.y - (Conductor.songPosition - daNote.strumTime) * (0.45 * FlxMath.roundDecimal(SONG.speed * daNote.LocalScrollSpeed, 2)));
-					}
-				else
-					{
-						if (FlxG.save.data.downscroll)
-							daNote.y = (strumLine.y - (Conductor.songPosition - daNote.strumTime) * (-0.45 * FlxMath.roundDecimal(FlxG.save.data.scrollSpeed == 1 ? SONG.speed : FlxG.save.data.scrollSpeed, 2)));
-						else
-							daNote.y = (strumLine.y - (Conductor.songPosition - daNote.strumTime) * (0.45 * FlxMath.roundDecimal(FlxG.save.data.scrollSpeed == 1 ? SONG.speed : FlxG.save.data.scrollSpeed, 2)));
-					}	*/
 				
-				switch (SONG.song.toLowerCase()) //boi
+				switch (SONG.song.toLowerCase())
 				{
 					case 'unfairness':
 						if (FlxG.save.data.downscroll)
@@ -3801,60 +3646,29 @@ class PlayState extends MusicBeatState
 						
 				}
 
-				if (SONG.song.toLowerCase() == 'cheating')
+				if (SONG.song.toLowerCase() != 'cheating')
 				{
-						//for sexo purposes
-						if (daNote.mustPress && !daNote.modifiedByLua)
-						{
-							daNote.visible = playerStrums.members[Math.floor(Math.abs(daNote.noteData))].visible;
-							if (!daNote.isSustainNote)
-								daNote.angle = playerStrums.members[Math.floor(Math.abs(daNote.noteData))].angle;
-							daNote.alpha = playerStrums.members[Math.floor(Math.abs(daNote.noteData))].alpha;
-						}
-						else if (!daNote.wasGoodHit && !daNote.modifiedByLua)
-						{
-							daNote.visible = strumLineNotes.members[Math.floor(Math.abs(daNote.noteData))].visible;
-							if (!daNote.isSustainNote)
-								daNote.angle = strumLineNotes.members[Math.floor(Math.abs(daNote.noteData))].angle;
-							daNote.alpha = strumLineNotes.members[Math.floor(Math.abs(daNote.noteData))].alpha;
-						}
-				}
-				else
-				{
-						if (daNote.mustPress && !daNote.modifiedByLua)
-						{
-							daNote.visible = playerStrums.members[Math.floor(Math.abs(daNote.noteData))].visible;
-							daNote.x = playerStrums.members[Math.floor(Math.abs(daNote.noteData))].x;
-							if (!daNote.isSustainNote)
-								daNote.angle = playerStrums.members[Math.floor(Math.abs(daNote.noteData))].angle;
-							daNote.alpha = playerStrums.members[Math.floor(Math.abs(daNote.noteData))].alpha;
-						}
-						else if (!daNote.wasGoodHit && !daNote.modifiedByLua)
-						{
-							daNote.visible = strumLineNotes.members[Math.floor(Math.abs(daNote.noteData))].visible;
-							daNote.x = strumLineNotes.members[Math.floor(Math.abs(daNote.noteData))].x;
-							if (!daNote.isSustainNote)
-								daNote.angle = strumLineNotes.members[Math.floor(Math.abs(daNote.noteData))].angle;
-							daNote.alpha = strumLineNotes.members[Math.floor(Math.abs(daNote.noteData))].alpha;
-						}
+					if (daNote.mustPress && !daNote.modifiedByLua)
+					{
+						daNote.visible = playerStrums.members[Math.floor(Math.abs(daNote.noteData))].visible;
+						daNote.x = playerStrums.members[Math.floor(Math.abs(daNote.noteData))].x;
+						if (!daNote.isSustainNote)
+							daNote.angle = playerStrums.members[Math.floor(Math.abs(daNote.noteData))].angle;
+						daNote.alpha = playerStrums.members[Math.floor(Math.abs(daNote.noteData))].alpha;
+					}
+					else if (!daNote.wasGoodHit && !daNote.modifiedByLua)
+					{
+						daNote.visible = strumLineNotes.members[Math.floor(Math.abs(daNote.noteData))].visible;
+						daNote.x = strumLineNotes.members[Math.floor(Math.abs(daNote.noteData))].x;
+						if (!daNote.isSustainNote)
+							daNote.angle = strumLineNotes.members[Math.floor(Math.abs(daNote.noteData))].angle;
+						daNote.alpha = strumLineNotes.members[Math.floor(Math.abs(daNote.noteData))].alpha;
+					}
 				}
 					
 				if (daNote.isSustainNote)
 					daNote.x += daNote.width / 2 + 17;
-					
 
-					//trace(daNote.y);
-					// WIP interpolation shit? Need to fix the pause issue
-					// daNote.y = (strumLine.y - (songTime - daNote.strumTime) * (0.45 * PlayState.SONG.speed));
-
-					/*if (SONG.song.toLowerCase() == 'applecore') {
-						if (unfairPart) strumliney = daNote.MyStrum != null ? daNote.MyStrum.y : strumLine.y;
-						else strumliney = strumLine.y;
-					}*/
-	
-					/*if (((daNote.y < -daNote.height && !FlxG.save.data.downscroll || daNote.y >= strumliney + 106 && FlxG.save.data.downscroll) && SONG.song.toLowerCase() != 'applecore') 
-						|| (SONG.song.toLowerCase() == 'applecore' && unfairPart && daNote.y >= strumliney + 106) 
-						|| (SONG.song.toLowerCase() == 'applecore' && !unfairPart && (daNote.y < -daNote.height && !FlxG.save.data.downscroll || daNote.y >= strumliney + 106 && FlxG.save.data.downscroll)))*/
 				if (daNote.y < -daNote.height && !FlxG.save.data.downscroll || daNote.y >= strumLine.y + 106)
 				{
 					if (daNote.isSustainNote && daNote.wasGoodHit)
@@ -4778,29 +4592,6 @@ class PlayState extends MusicBeatState
 						spr.animation.play('pressed');
 					if (staticballs[spr.ID])
 						spr.animation.play('static');
-					/*switch (spr.ID)
-					{
-						case 2:
-								if (upP && spr.animation.curAnim.name != 'confirm')
-									spr.animation.play('pressed');
-								if (upR)
-									spr.animation.play('static');
-						case 3:
-								if (rightP && spr.animation.curAnim.name != 'confirm')
-									spr.animation.play('pressed');
-								if (rightR)
-									spr.animation.play('static');
-						case 1:
-								if (downP && spr.animation.curAnim.name != 'confirm')
-									spr.animation.play('pressed');
-								if (downR)
-									spr.animation.play('static');
-						case 0:
-								if (leftP && spr.animation.curAnim.name != 'confirm')
-									spr.animation.play('pressed');
-								if (leftR)
-									spr.animation.play('static');
-					}*/
 					
 					if (spr.animation.curAnim.name == 'confirm' && !curStage.startsWith('school'))
 					{
