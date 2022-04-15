@@ -1015,13 +1015,13 @@ class PlayState extends MusicBeatState
 		switch(randomThingy)
 	    {
 			case 0:
-				engineName = 'Dave ';
+				engineName = 'Dave';
 			case 1:
-				engineName = 'Bambi ';
+				engineName = 'Bambi';
 			case 2:
-				engineName = 'Tristan ';
+				engineName = 'Tristan';
 			case 3:
-				engineName = 'Expunged ';
+				engineName = 'Expunged';
 		}
 
 		var creditsText:Bool = credits != '';
@@ -1035,7 +1035,7 @@ class PlayState extends MusicBeatState
 		SONG.song
 		+ " "
 		+ (curSong.toLowerCase() != 'splitathon' ? (storyDifficulty == 3 ? "Legacy" : storyDifficulty == 2 ? "Hard" : storyDifficulty == 1 ? "Normal" : "Easy") : "Finale")
-		+ " - " + engineName + "Engine (KE 1.2)", 16);
+		+ " - " + engineName + " Engine (KE 1.2)", 16);
 		kadeEngineWatermark.setFormat(Paths.font("comic.ttf"), 16, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 		kadeEngineWatermark.scrollFactor.set();
 		kadeEngineWatermark.borderSize = 1.25;
@@ -2619,9 +2619,11 @@ class PlayState extends MusicBeatState
 			gf.y += (Math.sin(elapsedtime) * 0.6);
 		}
 
-		if (SONG.song.toLowerCase() == 'applecore') {
+		if (SONG.song.toLowerCase() == 'applecore')
+		{
 
-			if (poiping) {
+			if (poiping) 
+			{
 				what.forEach(function(spr:FlxSprite){
 					spr.x += Math.abs(Math.sin(elapsed)) * gasw2[spr.ID];
 					if (spr.x > 3000 && !lanceyLovesWow2[spr.ID]) {
@@ -2632,12 +2634,14 @@ class PlayState extends MusicBeatState
 				});
 				if (whatDidRubyJustSay >= 2) poiping = false;
 			}
-			else if (canPoip) {
+			else if (canPoip) 
+			{
 				trace("ON TO THE POIPIGN!!!");
 				canPoip = false;
 				lanceyLovesWow2 = [false, false];
 				whatDidRubyJustSay = 0;
-				new FlxTimer().start(FlxG.random.float(3, 6.3), function(tmr:FlxTimer){
+				new FlxTimer().start(FlxG.random.float(3, 6.3), function(tmr:FlxTimer)
+				{
 					what.forEach(function(spr:FlxSprite){
 						spr.visible = true;
 						spr.x = FlxG.random.int(-2000, -3000);
@@ -2651,7 +2655,8 @@ class PlayState extends MusicBeatState
 				});
 			}
 
-			what.forEach(function(spr:FlxSprite){
+			what.forEach(function(spr:FlxSprite)
+			{
 				var daCoords = wow2[spr.ID];
 
 				daCoords[4] == 1 ? 
@@ -2667,13 +2672,16 @@ class PlayState extends MusicBeatState
 				if (dad.POOP) spr.angle += (Math.sin(elapsed * 2) * 0.5 + 0.5) * spr.ID == 1 ? 0.65 : -0.65;
 			});
 
-			playerStrums.forEach(function(spr:FlxSprite){
+			playerStrums.forEach(function(spr:FlxSprite)
+			{
 				noteJunksPlayer[spr.ID] = spr.y;
 			});
-			dadStrums.forEach(function(spr:FlxSprite){
+			dadStrums.forEach(function(spr:FlxSprite)
+			{
 				noteJunksDad[spr.ID] = spr.y;
 			});
-			if (unfairPart) {
+			if (unfairPart) 
+			{
 				playerStrums.forEach(function(spr:FlxSprite)
 				{
 					spr.x = ((FlxG.width / 2) - (spr.width / 2)) + (Math.sin(elapsedtime + (spr.ID)) * 300);
@@ -2685,8 +2693,10 @@ class PlayState extends MusicBeatState
 					spr.y = ((FlxG.height / 2) - (spr.height / 2)) + (Math.cos((elapsedtime + (spr.ID)) * 2) * 300);
 				});
 			}
-			if (SONG.notes[Math.floor(curStep / 16)] != null) {
-				if (SONG.notes[Math.floor(curStep / 16)].altAnim && !unfairPart) {
+			if (SONG.notes[Math.floor(curStep / 16)] != null) 
+			{
+				if (SONG.notes[Math.floor(curStep / 16)].altAnim && !unfairPart) 
+				{
 					var krunkThing = 60;
 					playerStrums.forEach(function(spr:FlxSprite)
 					{
@@ -2721,9 +2731,13 @@ class PlayState extends MusicBeatState
 					});
 
 					notes.forEachAlive(function(spr:Note){
+					
+						if (mustPress)
+						{
 							spr.x = arrowJunks[spr.noteData + 8][0] + (Math.sin(elapsedtime) * ((spr.noteData % 2) == 0 ? 1 : -1)) * krunkThing;
 
-							if (!spr.isSustainNote) {
+							if (!spr.isSustainNote) 
+							{
 		
 								spr.scale.x = Math.abs(Math.sin(elapsedtime - 5) * ((spr.noteData % 2) == 0 ? 1 : -1)) / 4;
 			
@@ -2735,6 +2749,7 @@ class PlayState extends MusicBeatState
 								spr.scale.x *= 1.5;
 								spr.scale.y *= 1.5;
 							}
+						}
 					});
 					altNotes.forEachAlive(function(spr:Note){
 						spr.x = arrowJunks[(spr.noteData % 4) + 4][0] + (Math.sin(elapsedtime) * ((spr.noteData % 2) == 0 ? 1 : -1)) * krunkThing;
@@ -2760,13 +2775,11 @@ class PlayState extends MusicBeatState
 						}
 					});
 				}
-				if (!SONG.notes[Math.floor(curStep / 16)].altAnim && wtfThing) {
-					
+				if (!SONG.notes[Math.floor(curStep / 16)].altAnim && wtfThing) 
+				{	
 					
 				}
 			}
-
-			
 		}
 
 		if (SONG.song.toLowerCase() == 'cheating') // fuck you
@@ -2828,30 +2841,37 @@ class PlayState extends MusicBeatState
 					spr.x = arrowJunks[spr.noteData + 4][0] + (Math.sin(elapsedtime) * ((spr.noteData % 2) == 0 ? 1 : -1)) * krunkThing;
 					spr.y = arrowJunks[spr.noteData + 4][1] + Math.sin(elapsedtime - 5) * ((spr.noteData % 2) == 0 ? 1 : -1) * krunkThing;
 
-					spr.scale.x = Math.abs(Math.sin(elapsedtime - 5) * ((spr.noteData % 2) == 0 ? 1 : -1)) / 4;
+					if (!spr.isSustainNote)
+					{
+						spr.scale.x = Math.abs(Math.sin(elapsedtime - 5) * ((spr.noteData % 2) == 0 ? 1 : -1)) / 4;
 
-					spr.scale.y = Math.abs((Math.sin(elapsedtime) * ((spr.noteData % 2) == 0 ? 1 : -1)) / 2);
+						spr.scale.y = Math.abs((Math.sin(elapsedtime) * ((spr.noteData % 2) == 0 ? 1 : -1)) / 2);
 
-					spr.scale.x += 0.2;
-					spr.scale.y += 0.2;
+						spr.scale.x += 0.2;
+						spr.scale.y += 0.2;
 
-					spr.scale.x *= 1.5;
-					spr.scale.y *= 1.5;
+						spr.scale.x *= 1.5;
+						spr.scale.y *= 1.5;
+					}
 
 				}
-				else {
+				else 
+				{
 					spr.x = arrowJunks[spr.noteData][0] + (Math.sin(elapsedtime) * ((spr.noteData % 2) == 0 ? 1 : -1)) * krunkThing;
 					spr.y = arrowJunks[spr.noteData][1] + Math.sin(elapsedtime - 5) * ((spr.noteData % 2) == 0 ? 1 : -1) * krunkThing;
 
-					spr.scale.x = Math.abs(Math.sin(elapsedtime - 5) * ((spr.noteData % 2) == 0 ? 1 : -1)) / 4;
+					if (!spr.isSustainNote)
+					{
+						spr.scale.x = Math.abs(Math.sin(elapsedtime - 5) * ((spr.noteData % 2) == 0 ? 1 : -1)) / 4;
 
-					spr.scale.y = Math.abs((Math.sin(elapsedtime) * ((spr.noteData % 2) == 0 ? 1 : -1)) / 2);
+						spr.scale.y = Math.abs((Math.sin(elapsedtime) * ((spr.noteData % 2) == 0 ? 1 : -1)) / 2);
 
-					spr.scale.x += 0.2;
-					spr.scale.y += 0.2;
+						spr.scale.x += 0.2;
+						spr.scale.y += 0.2;
 
-					spr.scale.x *= 1.5;
-					spr.scale.y *= 1.5;
+						spr.scale.x *= 1.5;
+						spr.scale.y *= 1.5;
+					}
 				}
 			});
 		}
@@ -4588,19 +4608,19 @@ class PlayState extends MusicBeatState
 	
 			playerStrums.forEach(function(spr:FlxSprite)
 			{	
-					if (confirmfuck[spr.ID] && spr.animation.curAnim.name != 'confirm')
-						spr.animation.play('pressed');
-					if (staticballs[spr.ID])
-						spr.animation.play('static');
+				if (confirmfuck[spr.ID] && spr.animation.curAnim.name != 'confirm')
+					spr.animation.play('pressed');
+				if (staticballs[spr.ID])
+					spr.animation.play('static');
 					
-					if (spr.animation.curAnim.name == 'confirm' && !curStage.startsWith('school'))
-					{
-						spr.centerOffsets();
-						spr.offset.x -= 13;
-						spr.offset.y -= 13;
-					}
-					else
-						spr.centerOffsets();
+				if (spr.animation.curAnim.name == 'confirm' && !curStage.startsWith('school'))
+				{
+					spr.centerOffsets();
+					spr.offset.x -= 13;
+					spr.offset.y -= 13;
+				}
+				else
+					spr.centerOffsets();
 			});
 	}
 
