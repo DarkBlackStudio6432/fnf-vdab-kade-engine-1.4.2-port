@@ -4745,9 +4745,6 @@ class PlayState extends MusicBeatState
 		return possibleNotes.length;
 	}
 
-	var mashing:Int = 0;
-	var mashViolations:Int = 0;
-
 	var etternaModeScore:Int = 0;
 
 	function noteCheck(controlArray:Array<Bool>, note:Note):Void // sorry lol //                                  
@@ -4765,39 +4762,7 @@ class PlayState extends MusicBeatState
 
 		if (controlArray[note.noteData])
 		{
-			if(SONG.song.toLowerCase() == 'tutorial')
-			{
-				for (b in controlArray) {
-					if (b)
-						mashing++;
-				}
-
-				// ANTI MASH CODE FOR THE BOYS
-
-				if (mashing <= getKeyPresses(note) && mashViolations < 2)
-				{
-					mashViolations++;
-					
-					goodNoteHit(note, (mashing <= getKeyPresses(note)));
-				}
-				else
-				{
-					// this is bad but fuck you
-					playerStrums.members[0].animation.play('static');
-					playerStrums.members[1].animation.play('static');
-					playerStrums.members[2].animation.play('static');
-					playerStrums.members[3].animation.play('static');
-					health -= 0.2;
-					trace('MASH HAHA FUCK YOU ' + mashing);
-				}
-
-				if (mashing != 0)
-					mashing = 0;
-			}
-			else
-			{
-				goodNoteHit(note);
-			}
+			goodNoteHit(note);
 		}
 		else if (!theFunne)
 		{
@@ -4807,7 +4772,7 @@ class PlayState extends MusicBeatState
 
 	var nps:Int = 0;
 
-	function goodNoteHit(note:Note, resetMashViolation = false):Void
+	function goodNoteHit(note:Note):Void
 	{
 		var noteDiff:Float = Math.abs(note.strumTime - Conductor.songPosition);
 
@@ -4815,12 +4780,6 @@ class PlayState extends MusicBeatState
 
 		if (!note.isSustainNote)
 			notesHitArray.push(Date.now());
-
-		if(SONG.song.toLowerCase() == 'tutorial'){
-			resetMashViolation = true;
-			if (resetMashViolation)
-				mashViolations--;
-		}
 
 		if (!note.wasGoodHit)
 		{
