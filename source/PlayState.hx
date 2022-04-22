@@ -3690,7 +3690,7 @@ class PlayState extends MusicBeatState
 						daNote.x += daNote.width / 2 + 17;
 				}
 
-				if (daNote.y < -daNote.height && !FlxG.save.data.downscroll || daNote.y >= strumLine.y + 106)
+				if (daNote.y < -daNote.height && !FlxG.save.data.downscroll || daNote.y >= strumLine.y + 106 && FlxG.save.data.downscroll)
 				{
 					if (daNote.isSustainNote && daNote.wasGoodHit)
 					{
