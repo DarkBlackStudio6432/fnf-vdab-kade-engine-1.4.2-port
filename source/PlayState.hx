@@ -2732,7 +2732,7 @@ class PlayState extends MusicBeatState
 
 					notes.forEachAlive(function(spr:Note){
 					
-						if (mustPress)
+						if (spr.mustPress)
 						{
 							spr.x = arrowJunks[spr.noteData + 8][0] + (Math.sin(elapsedtime) * ((spr.noteData % 2) == 0 ? 1 : -1)) * krunkThing;
 
@@ -3684,10 +3684,10 @@ class PlayState extends MusicBeatState
 							daNote.angle = strumLineNotes.members[Math.floor(Math.abs(daNote.noteData))].angle;
 						daNote.alpha = strumLineNotes.members[Math.floor(Math.abs(daNote.noteData))].alpha;
 					}
+
+					if (daNote.isSustainNote)
+						daNote.x += daNote.width / 2 + 17;
 				}
-					
-				if (daNote.isSustainNote)
-					daNote.x += daNote.width / 2 + 17;
 
 				if (daNote.y < -daNote.height && !FlxG.save.data.downscroll || daNote.y >= strumLine.y + 106)
 				{
