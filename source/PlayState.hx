@@ -885,7 +885,7 @@ class PlayState extends MusicBeatState
 				boyfriendOldIcon = 'bambi-old';
 		}
 
-		if(darkLevels.contains(curStage) && SONG.song.toLowerCase() != "polygonized")
+		if(darkLevels.contains(curStage) && SONG.song.toLowerCase() == "polygonized")
 		{
 			dad.color = nightColor;
 			gf.color = nightColor;
@@ -2441,13 +2441,13 @@ class PlayState extends MusicBeatState
 	var startedCountdown:Bool = false;
 	var canPause:Bool = true;
 
-	function truncateFloat( number : Float, precision : Int): Float {
+	function truncateFloat( number : Float, precision : Int): Float 
+	{
 		var num = number;
 		num = num * Math.pow(10, precision);
 		num = Math.round( num ) / Math.pow(10, precision);
 		return num;
-		}
-
+	}
 
 	function generateRanking():String
 	{
@@ -2730,7 +2730,8 @@ class PlayState extends MusicBeatState
 						spr.scale.y *= 1.5;
 					});
 
-					notes.forEachAlive(function(spr:Note){
+					notes.forEachAlive(function(spr:Note)
+					{
 					
 						if (spr.mustPress)
 						{
@@ -4800,7 +4801,7 @@ class PlayState extends MusicBeatState
 			else
 				health += 0.023;
 		
-			if (darkLevels.contains(curStage) && SONG.song.toLowerCase() != "polygonized")
+			if (darkLevels.contains(curStage) && SONG.song.toLowerCase() == "polygonized")
 			{
 				boyfriend.color = nightColor;
 			}
@@ -5328,7 +5329,7 @@ class PlayState extends MusicBeatState
 		if (!boyfriend.animation.curAnim.name.startsWith("sing") && boyfriend.canDance)
 		{
 			boyfriend.playAnim('idle');
-			if (darkLevels.contains(curStage) && SONG.song.toLowerCase() != "polygonized")
+			if (darkLevels.contains(curStage) && SONG.song.toLowerCase() == "polygonized")
 			{
 				boyfriend.color = nightColor;
 			}
