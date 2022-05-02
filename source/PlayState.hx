@@ -885,7 +885,7 @@ class PlayState extends MusicBeatState
 				boyfriendOldIcon = 'bambi-old';
 		}
 
-		if(darkLevels.contains(curStage) && SONG.song.toLowerCase() == "polygonized")
+		if(darkLevels.contains(curStage) || SONG.song.toLowerCase() == "polygonized")
 		{
 			dad.color = nightColor;
 			gf.color = nightColor;
