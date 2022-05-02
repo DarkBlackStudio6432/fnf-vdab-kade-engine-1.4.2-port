@@ -4801,7 +4801,7 @@ class PlayState extends MusicBeatState
 			else
 				health += 0.023;
 		
-			if (darkLevels.contains(curStage) && SONG.song.toLowerCase() == "polygonized")
+			if (darkLevels.contains(curStage) || SONG.song.toLowerCase() == "polygonized")
 			{
 				boyfriend.color = nightColor;
 			}
@@ -5329,7 +5329,7 @@ class PlayState extends MusicBeatState
 		if (!boyfriend.animation.curAnim.name.startsWith("sing") && boyfriend.canDance)
 		{
 			boyfriend.playAnim('idle');
-			if (darkLevels.contains(curStage) && SONG.song.toLowerCase() == "polygonized")
+			if (darkLevels.contains(curStage) || SONG.song.toLowerCase() == "polygonized")
 			{
 				boyfriend.color = nightColor;
 			}
